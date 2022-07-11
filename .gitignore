@@ -1,0 +1,11 @@
+/node_modeules
+/client/node_modeules
+
+/client/.pnp
+/client/.pnp.js
+
+/client/coverage
+
+/client/build
+
+node_modules

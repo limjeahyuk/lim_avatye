@@ -1,0 +1,37 @@
+.headbox {
+    margin-bottom: 30px;
+    height: 100px;
+    background-color: #ccc;
+}
+
+.intro{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+.user{
+    margin-top: 10px;
+}
+
+.logo{
+    width: 300px;
+    font-size: 40px;
+    font-weight: bold;
+    margin: auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.logo a{
+    text-decoration: none;
+        color: black;
+}
+
+.user a{
+    margin: 0 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
