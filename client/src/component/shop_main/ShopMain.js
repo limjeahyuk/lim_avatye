@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import classes from './ShopMain.module.css';
+import ShopProduct from "./ShopProduct";
 
 const ShopMain = () => {
     const [data, setData] = useState([{}]);
-
     
 
 
@@ -20,16 +20,15 @@ const ShopMain = () => {
 
     return (<div className={classes.cont}>
         {data.map((item, index) => (
-            <div className={classes.item} key={index}>
-                <div className={classes.imgbox}>
-                    <img src={item.proimg} alt="game_img"></img>
-                </div>
-                <div className={classes.into}>
-                    <div>{item.proname}</div>
-                    <div>{item.proca} </div>
-                    <div>{item.price}원</div>
-                </div>
-            </div>
+            <ShopProduct
+                key={index}
+                pdid={item.proid}
+                userid={item.userid}
+                img={item.proimg}
+                name={item.proname}
+                carte={item.proca}
+                price={item.price}
+            />
         ))}
     </div>)
 }

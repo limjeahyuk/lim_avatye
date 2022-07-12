@@ -5,6 +5,7 @@ import HeadBox from './HeadBox';
 import Login from './component/user/Login';
 import Sign from './component/user/Sign';
 import Post from './component/product/Post';
+import Item from './component/product/item/Item';
 
 
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/sign' element={<Sign />} />
           <Route path='/post' element={<Post />} />
+          <Route path='/item/:id' element={<Item />} />
         </Routes>
       </BrowserRouter>
 
