@@ -74,8 +74,7 @@ app.get('/', (req, res) => {
     connection.query('SELECT * FROM product', (error, rows) => {
         if (error) throw error;
         console.log(rows);
-            res.json(rows);
-        
+        res.json(rows);
     })
 })
 
@@ -112,10 +111,10 @@ app.post('/login', function (req, res) {
                                 res.json({...rows, token: token});  
                         }
                     })
-                } else {
-                    res.send("dd"); //뭔가 틀림
-                }
-            });
+            } else {
+                res.send("dd");
+            }
+        });
     } else {
         res.send("dd"); // 아예 안씀
     }
