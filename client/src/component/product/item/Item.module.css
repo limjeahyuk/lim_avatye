@@ -1,0 +1,75 @@
+.header{
+    text-align: center;
+    margin: 40px 0;
+    font-size: 30px;
+    font-weight: bold;
+}
+.item{
+    width: 700px;
+    border: 1px solid rgb(181, 181, 181);
+    border-radius: 15px;
+    margin: auto;
+}
+
+.head h1{   
+    text-align: center;
+}
+
+.head p{
+    text-align: right;
+    margin: 10px;
+}
+
+.imgbox{
+    width: 650px;
+    margin: auto;
+}
+
+.imgbox img{
+    width: 100%;
+    margin: auto;
+}
+
+.cont {
+    width: 650px;
+    margin: 20px auto 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.cont div{
+    margin: 10px 0;
+}
+
+.cont .car{
+    padding: 5px;
+    background-color: #eee;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.cont .itemcont{
+    font-size: 17px;
+    width: 600px;
+    margin: 10px auto;
+}
+.cont .info{
+    width: 600px;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.buy{
+    width: 600px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buy input{
+    width: 100px;
+    margin-right: 10px;
+}

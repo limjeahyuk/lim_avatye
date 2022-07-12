@@ -58,7 +58,7 @@ const util = {
     }
 }
 
-
+// 전체 조회
 app.get('/', (req, res) => {
     connection.query('SELECT * FROM product', (error, rows) => {
         if (error) throw error;
@@ -66,6 +66,16 @@ app.get('/', (req, res) => {
         res.json(rows);
     })
 })
+
+// 클릭시 item 조회
+app.get('/item/:id', (req, res) => {
+    const selectid = parseInt(req.params.id);
+    connection.query(`SELECT * FROM product, user WHERE product.userid = user.userid and proid = ${selectid}`,
+        (error, rows) => {
+            if (error) throw error;
+            res.json(rows);
+        });
+});
 
 // login 확인
 app.post('/login', function (req, res) {
