@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import classes from './Login.module.css';
+ import classes from './Login.module.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [userpw, setUserpw] = useState('');
-    // const [userCheck, setUserCheck] = useState(false);
     const navigate = useNavigate();
 
     const idChangeHandler = (e) => {
@@ -34,22 +33,21 @@ const Login = () => {
         }).then(function a(response) {
             console.log(response.data);
            if (response.data[0].username === username || response.data[0].userpassword === userpw) {
-            //    setUserCheck(true);
-               sessionStorage.setItem('user', 'good');
+            // login성공
+               localStorage.setItem('lim-token', response.data.token);
+               navigate('/');
                
            } else {
-               //setUserCheck(false);
+               //로그인 x
                alert('xx');
         }
         }).catch(function (error) {
             console.log(error);
         });
 
-        
-
         // input 창 초기화
-        // setUsername('');
-        // setUserpw('');
+        setUsername('');
+        setUserpw('');
     }
 
     return (<div>

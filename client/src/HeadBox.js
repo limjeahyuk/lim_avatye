@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from './HeadBox.module.css';
 import { Link } from "react-router-dom";
 
 const HeadBox = () => {
 
-    // const logoutHandler = () => {
-    //     sessionStorage.setItem('user', 'no');
-    //     document.location.href ='/'
-    // }
+    const [userNick, setUserNick] = useState('');
+
  
     return (<div className={classes.headbox}>
         <div className={classes.intro}>
