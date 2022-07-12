@@ -14,6 +14,9 @@ const bodyparser = require('body-parser');
 const multer = require("multer");
 const path = require("path");
 
+const session = require("express-session");
+const MYSQLStore = require("express-mysql-session")(session);
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -29,8 +32,16 @@ const upload = multer({
     storage : storage
 });
 
-const jwt = require('jsonwebtoken');
+const sessionOption = {
+    secret: 'HYUK_SECRET_KEY',
+    resave: false,
+    saveUninitialized: false,
+    store: new MYSQLStore(dbconfig),
+    cookie: {secure : false}
+}
 
+// jwt 사용...
+const jwt = require('jsonwebtoken');
 const HYUK_TOKEN = 'HYUK_SECRET_KEY';
 
 //객체생성
@@ -39,6 +50,8 @@ const app = express();
 // body-parser를 이용하여 json 파싱
 app.use(bodyparser.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(session(sessionOption));
 
 app.use(cors({
     // 데이터 요청을 하면 origin이라는 헤더를 포함.
@@ -91,26 +104,32 @@ app.get('/item/:id', (req, res) => {
 // login 확인
 app.post('/login', function (req, res) {
     const rb = req.body;
-    const username = req.body.username;
-    const userpassword = req.body.password;
+    const username = rb.username;
+    const userpassword = rb.password;
     if (username && userpassword) {
         connection.query('SELECT * FROM user WHERE username = ? AND userpw = ?',
             [username, userpassword], (error, rows) => {
                 if (error) throw error;
                 if (rows.length > 0) {
+                    // jwt 처리
                     jwt.sign({
-                       username : username 
-                    }, HYUK_TOKEN, {
-                        expiresIn : '1h'
-                    },
-                        (err, token) => {
+                        username: username
+                    }, HYUK_TOKEN,
+                        {
+                        expiresIn:'1h'
+                        }, (err, token) => {
                             if (err) {
                                 console.log(err);
-                                res.status(401).json({ success: false, errormessage: 'token sign fail' });
                             } else {
-                                res.json({...rows, token: token});  
-                        }
+                                res.json({ ...rows, token: token });
+                            }
                     })
+
+                    // session 처리
+                    // req.session.displayName = username
+                    // req.session.save(() => {
+                    //     res.json(rows)
+                    // })
             } else {
                 res.send("dd");
             }
