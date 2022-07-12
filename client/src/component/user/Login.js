@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
  import classes from './Login.module.css';
 
-const Login = () => {
+const Login = (props) => {
     const [username, setUsername] = useState('');
     const [userpw, setUserpw] = useState('');
     const navigate = useNavigate();
@@ -35,6 +35,7 @@ const Login = () => {
            if (response.data[0].username === username || response.data[0].userpassword === userpw) {
             // login성공
                localStorage.setItem('lim-token', response.data.token);
+               props.isLoginCheck(true);
                navigate('/');
                
            } else {

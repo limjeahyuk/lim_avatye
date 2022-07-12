@@ -2,19 +2,17 @@ import React, { useState } from "react";
 import classes from './HeadBox.module.css';
 import { Link } from "react-router-dom";
 
-const HeadBox = () => {
-
-    const [userNick, setUserNick] = useState('');
-
+const HeadBox = (props) => {
  
     return (<div className={classes.headbox}>
         <div className={classes.intro}>
-                
-            <div className={classes.user}>
+            {props.isLogin ? <div>logout</div>
+            : <div className={classes.user}>
                 <Link to='/login'>login</Link>
                 |
                 <Link to='/sign'>sign</Link>
-            </div>
+            </div>}
+            
 
         </div>
         <div className={classes.logo}>
