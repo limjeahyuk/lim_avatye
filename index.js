@@ -14,6 +14,7 @@ const bodyparser = require('body-parser');
 const multer = require("multer");
 const path = require("path");
 
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "client/public/");
@@ -28,6 +29,10 @@ const upload = multer({
     storage : storage
 });
 
+const jwt = require('jsonwebtoken');
+
+const HYUK_TOKEN = 'HYUK_SECRET_KEY';
+
 //객체생성
 const app = express();
 
@@ -35,7 +40,13 @@ const app = express();
 app.use(bodyparser.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cors());
+app.use(cors({
+    // 데이터 요청을 하면 origin이라는 헤더를 포함.
+    // orgin은 도메인 형태를 띄는 데 이것을 모두 허용.
+    origin: true,
+    // access-control-allow-credentials 를 true > 왜인지 너무 길어용..
+    credentials: true
+}));
 
 // 기본 속성 설정
 app.set('port', process.env.PORT || 8080);
@@ -63,7 +74,8 @@ app.get('/', (req, res) => {
     connection.query('SELECT * FROM product', (error, rows) => {
         if (error) throw error;
         console.log(rows);
-        res.json(rows);
+            res.json(rows);
+        
     })
 })
 
@@ -87,7 +99,19 @@ app.post('/login', function (req, res) {
             [username, userpassword], (error, rows) => {
                 if (error) throw error;
                 if (rows.length > 0) {
-                    res.json(rows); 
+                    jwt.sign({
+                       username : username 
+                    }, HYUK_TOKEN, {
+                        expiresIn : '1h'
+                    },
+                        (err, token) => {
+                            if (err) {
+                                console.log(err);
+                                res.status(401).json({ success: false, errormessage: 'token sign fail' });
+                            } else {
+                                res.json({...rows, token: token});  
+                        }
+                    })
                 } else {
                     res.send("dd"); //뭔가 틀림
                 }
