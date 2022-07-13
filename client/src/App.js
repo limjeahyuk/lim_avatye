@@ -29,7 +29,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <HeadBox isLogin={isLogin} userName={ userName} />
+        <HeadBox isLogin={isLogin} userName={userName} isLoginCheck={isLoginHandler} />
         <Routes>
           <Route path="/" element={<ShopMain />} />
           <Route path='/login' element={<Login isLoginCheck={ isLoginHandler} />} />
