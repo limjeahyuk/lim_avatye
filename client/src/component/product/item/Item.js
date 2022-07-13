@@ -34,7 +34,8 @@ const Item = (props) => {
         const orderData = {
             proid: id,
             username: props.name,
-            count: count
+            count: count,
+            orderdate: new Date().toISOString().slice(0,10)
         };
 
         const itemCount = itemData[0].quantity - count;

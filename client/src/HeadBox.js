@@ -5,10 +5,12 @@ import axios from "axios";
 
 const HeadBox = (props) => {
     const [userNick, setUserNick] = useState('');
+    const [userId, setUserId] = useState('');
 
     const sendRequest = async () => {
         const response = await axios.get(`http://localhost:8080/user/${props.userName}`);
         setUserNick(response.data[0].usernick);
+        setUserId(response.data[0].userid);
     };
 
     useEffect(() => {
@@ -24,7 +26,7 @@ const HeadBox = (props) => {
 
     return (<div className={classes.headbox}>
         <div className={classes.intro}>
-            {props.isLogin ? <div><div onClick={logoutHandler}>logout</div><div>{userNick}</div></div>
+            {props.isLogin ? <div><div onClick={logoutHandler}>logout</div><Link to={'/mypage/' + userId}>{userNick} 님</Link></div>
             : <div className={classes.user}>
                 <Link to='/login'>login</Link>
                 |

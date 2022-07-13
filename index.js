@@ -92,7 +92,7 @@ app.get('/', (req, res) => {
     })
 })
 
-// userid를 이용한 user 조회
+// username를 이용한 user 조회
 app.get('/user/:name', (req, res) => {
     const selectname = (req.params.name);
     connection.query(`SELECT * FROM user WHERE username = "${selectname}"`,
@@ -100,7 +100,28 @@ app.get('/user/:name', (req, res) => {
             if (error) throw error;
             res.json(rows);
         });
-} )
+})
+
+// userid를 이용한 구매한 내역 user , product , order 조회
+app.get('/mypage/:id', (req, res) => {
+    const selectid = parseInt(req.params.id);
+    connection.query(`SELECT * FROM \`order\`, product, user 
+    WHERE \`order\`.proid = product.proid and \`order\`.username = user.username and user.userid = ${selectid}`,
+        (error, rows) => {
+            if (error) throw error;
+            res.json(rows);
+    })
+})
+
+// userid를 이용하여 판매 상품 내역 조회 user, product
+app.get('/pro/:id', (req, res) => {
+    const selectid = parseInt(req.params.id);
+    connection.query(`SELECT * FROM user, product WHERE user.userid = product.userid and user.userid = ${selectid}`,
+        (error, rows) => {
+            if (error) throw error;
+            res.json(rows);
+    })
+})
 
 // 클릭시 item 조회
 app.get('/item/:id', (req, res) => {
@@ -225,8 +246,10 @@ app.post("/buy", function (req, res) {
     const proid = rb.proid;
     const username = rb.username;
     const count = rb.count;
+    const orderdate = rb.orderdate;
+    
 
-    const query = `INSERT INTO \`order\`(PROID, USERNAME, COUNT) VALUE (${proid},'${username}',${count})`;
+    const query = `INSERT INTO \`order\`(PROID, USERNAME, COUNT, ORDERDATE) VALUE (${proid},'${username}',${count}, '${orderdate}')`;
     connection.query(query, (err, rows) => {
         if (err) throw err;
         return console.log("insert order success");
