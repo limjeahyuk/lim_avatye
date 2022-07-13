@@ -1,10 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import classes from './Item.module.css';
 
-const Item = () => {
+const Item = (props) => {
     const [itemData, setItemData] = useState({});
+    const [count, setCount] = useState(1);
+
+
+    const navigate = useNavigate();
+    
 
     const { id } = useParams();
 
@@ -18,8 +23,41 @@ const Item = () => {
         sendRequest();
     }, []);
 
+    const countHandler = (e) => {
+        setCount(e.target.value);
+    }
+
+    // 구매버튼 눌렀을 때
     const buySubmitHandler = (e) => {
         e.preventDefault();
+        
+        const orderData = {
+            proid: id,
+            username: props.name,
+            count: count
+        };
+
+        const itemCount = itemData[0].quantity - count;
+        
+        axios({
+            url: "http://localhost:8080/buy",
+            method: 'post',
+            data: orderData
+        }).then(function a(response) {
+            alert('구매가 완료되었습니다.')
+        }).catch(function (error) {
+            console.log(error);
+        });
+
+        axios({
+            url: `http://localhost:8080/count/${id}`,
+            method: 'put',
+            data: {count : itemCount}
+        }).then(function a(response) {
+            navigate('/');
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
 
 
@@ -43,10 +81,13 @@ const Item = () => {
                     </div>
                     
                 </div>
-                <form className={classes.buy} onSubmit={buySubmitHandler}>
-                    <input type="number" min="1" max={itemData[0].quantity} />
-                    <button type="submit">구매</button>
-                </form>
+                {props.name ?
+                    <form className={classes.buy} onSubmit={buySubmitHandler}>
+                        <input type="number" min="1" max={itemData[0].quantity} value={count} onChange={countHandler}/>
+                        <button type="submit" disabled={props.name ? false : true}>구매</button>
+                    </form> : 
+                    <div>로그인 먼저 해주세요</div>}
+                
         </div>}
     </>
      

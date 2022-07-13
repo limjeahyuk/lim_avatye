@@ -17,9 +17,14 @@ const HeadBox = (props) => {
         }
     });
 
+    const logoutHandler = () => {
+        props.isLoginCheck(false);
+        localStorage.removeItem('lim-token');
+    }
+
     return (<div className={classes.headbox}>
         <div className={classes.intro}>
-            {props.isLogin ? <div><div>logout</div><div>{userNick}</div></div>
+            {props.isLogin ? <div><div onClick={logoutHandler}>logout</div><div>{userNick}</div></div>
             : <div className={classes.user}>
                 <Link to='/login'>login</Link>
                 |

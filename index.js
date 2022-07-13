@@ -219,6 +219,34 @@ app.post("/post", function (req, res) {
     res.json(req.body);
 })
 
+// 제품 구매버튼 눌렀을 때 order 테이블에 저장.
+app.post("/buy", function (req, res) {
+    const rb = req.body;
+    const proid = rb.proid;
+    const username = rb.username;
+    const count = rb.count;
+
+    const query = `INSERT INTO \`order\`(PROID, USERNAME, COUNT) VALUE (${proid},'${username}',${count})`;
+    connection.query(query, (err, rows) => {
+        if (err) throw err;
+        return console.log("insert order success");
+    });
+    res.json(req.body);
+})
+
+// 제품 구매버튼 눌렀을 때 product 테이블 수량 변경
+app.put("/count/:id", function (req, res) {
+    const count = req.body.count;
+
+    const updateid = parseInt(req.params.id);
+    const query = `UPDATE product SET quantity=${count} WHERE proid = ${updateid}`
+    connection.query(query, (err, rows) => {
+        if (err) throw err;
+        return console.log("update success");
+    });
+    res.json("good");
+})
+
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'));
