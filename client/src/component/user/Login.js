@@ -36,8 +36,7 @@ const Login = (props) => {
             // login성공
                localStorage.setItem('lim-token', response.data.token);
                props.isLoginCheck(true);
-               navigate('/');
-               
+               navigate('/');             
            } else {
                //로그인 x
                alert('xx');
