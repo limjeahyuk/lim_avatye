@@ -8,6 +8,7 @@ import Post from './component/product/Post';
 import Item from './component/product/item/Item';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
+import MyPage from './component/user/MyPage';
 
 
 
@@ -43,7 +44,8 @@ function App() {
           <Route path='/login' element={<Login isLoginCheck={ isLoginHandler} />} />
           <Route path='/sign' element={<Sign />} />
           <Route path='/post' element={<Post />} />
-          <Route path='/item/:id' element={<Item name={ userName} />} />
+          <Route path='/item/:id' element={<Item name={userName} />} />
+          <Route path='/mypage/:id' element={<MyPage />} />
         </Routes>
       </BrowserRouter>
 
