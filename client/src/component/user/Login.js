@@ -19,35 +19,36 @@ const Login = (props) => {
     // login 확인 
     const loginHandler = (e) => {
         e.preventDefault();
+        
+        if (username.trim().length > 0 && userpw.trim().length > 0) {
+            const loginData = {
+                username: username.trim(),
+                password: userpw.trim()
+            };
 
-        const loginData = {
-            username: username,
-            password: userpw
-        };
-
-        //login api
-        axios({
-            url: 'http://localhost:8080/login',
-            method: 'post',
-            data: loginData
-        }).then(function a(response) {
-            console.log(response.data);
-           if (response.data[0].username === username || response.data[0].userpassword === userpw) {
-            // login성공
-               localStorage.setItem('lim-token', response.data.token);
-               props.isLoginCheck(true);
-               navigate('/');             
-           } else {
-               //로그인 x
-               alert('xx');
+            //login api
+            axios({
+                url: 'http://localhost:8080/login',
+                method: 'post',
+                data: loginData
+            }).then(function a(response) {
+                console.log(response.data);
+            if (response.data[0].username === username.trim() || response.data[0].userpassword === userpw.trim()) {
+                // login성공
+                localStorage.setItem('lim-token', response.data.token);
+                props.isLoginCheck(true);
+                navigate('/');             
+            } else {
+                //로그인 x
+                alert('틀렸습니다.');
+            }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } else {
+            alert('입력해주세요')
         }
-        }).catch(function (error) {
-            console.log(error);
-        });
 
-        // input 창 초기화
-        setUsername('');
-        setUserpw('');
     }
 
     return (<div>
@@ -55,13 +56,13 @@ const Login = (props) => {
         <form onSubmit={loginHandler}>
             <div>
                 아이디
-                <input type='text' onChange={idChangeHandler} value={ username} />
+                <input type='text' onChange={idChangeHandler} value={username} minLength="4" />
             </div>
             <div>
                 비밀번호
-                <input type='password' onChange={pwChangeHandler} value={userpw} />
+                <input type='password' onChange={pwChangeHandler} value={userpw} minLength="4" />
             </div>
-            <button disabled={username.length > 0 && userpw.length > 0 ? false : true}
+            <button disabled={username.trim().length > 0 && userpw.trim().length > 0 ? false : true}
                 type="submit">로그인</button>
             
         </form>

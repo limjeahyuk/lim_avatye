@@ -6,8 +6,6 @@ import ShopProduct from "./ShopProduct";
 const ShopMain = () => {
     const [data, setData] = useState([{}]);
     
-
-
     const sendFullRequest = async () => {
         const response = await axios.get('http://localhost:8080');
         setData(response.data);
