@@ -42,6 +42,7 @@ const sessionOption = {
 
 // jwt 사용...
 const jwt = require('jsonwebtoken');
+const { parse } = require('path');
 const HYUK_TOKEN = 'HYUK_SECRET_KEY';
 
 //객체생성
@@ -91,6 +92,16 @@ app.get('/', (req, res) => {
     })
 })
 
+// userid를 이용한 user 조회
+app.get('/user/:name', (req, res) => {
+    const selectname = (req.params.name);
+    connection.query(`SELECT * FROM user WHERE username = "${selectname}"`,
+        (error, rows) => {
+            if (error) throw error;
+            res.json(rows);
+        });
+} )
+
 // 클릭시 item 조회
 app.get('/item/:id', (req, res) => {
     const selectid = parseInt(req.params.id);
@@ -122,9 +133,8 @@ app.post('/login', function (req, res) {
                                 console.log(err);
                             } else {
                                 res.json({ ...rows, token: token });
-                            }
+                            }   
                     })
-
                     // session 처리
                     // req.session.displayName = username
                     // req.session.save(() => {

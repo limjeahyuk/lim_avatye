@@ -13,17 +13,23 @@ import jwt_decode from 'jwt-decode';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userNick, setUserNick] = useState('');
 
   const isLoginHandler = (bool) => {
     setIsLogin(bool);
+
+    if (bool === true) {
     const token = localStorage.getItem('lim-token');
-    console.log(jwt_decode(token));
+      setUserName(jwt_decode(token).username);
+    }
   }
+
 
   return (
     <div>
       <BrowserRouter>
-        <HeadBox isLogin={isLogin} />
+        <HeadBox isLogin={isLogin} userName={ userName} />
         <Routes>
           <Route path="/" element={<ShopMain />} />
           <Route path='/login' element={<Login isLoginCheck={ isLoginHandler} />} />
