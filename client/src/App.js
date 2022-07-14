@@ -44,7 +44,7 @@ function App() {
           <Route path="/" element={<ShopMain />} />
           <Route path='/login' element={<Login isLoginCheck={ isLoginHandler} />} />
           <Route path='/sign' element={<Sign />} />
-          <Route path='/post' element={<Post />} />
+          <Route path='/post' element={<Post name={ userName} />} />
           <Route path='/item/:id' element={<Item name={userName} />} />
           <Route path='/mypage/:id' element={<MyPage />} />
           <Route path='/userupdate' element={<UserUpdate name={userName} isLoginCheck={isLoginHandler } />} />

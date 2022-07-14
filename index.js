@@ -223,6 +223,7 @@ app.post("/img", upload.single('img'), async (req, res) => {
 app.post("/post", function (req, res) {
     console.log('console : %j', req.body);
     const rb = req.body;
+    const userid = rb.userid;
     const proname = rb.proname;
     const procont = rb.procont;
     const price = rb.price;
@@ -230,8 +231,8 @@ app.post("/post", function (req, res) {
     const proca = rb.proca;
     const quantity = rb.quantity;
 
-    const query = `INSERT INTO product(PRONAME, PROCONT, PRICE, PROIMG, PROCA, QUANTITY) VALUE
-    ('${proname}','${procont}','${price}','${proimg}','${proca}','${quantity}')`;
+    const query = `INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, PROCA, QUANTITY) VALUE
+    ('${userid}','${proname}','${procont}','${price}','${proimg}','${proca}','${quantity}')`;
     connection.query(query,
         (err, rows) => {
             if (err) throw err;
