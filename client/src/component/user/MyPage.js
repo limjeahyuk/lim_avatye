@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MyPage = () => {
     const [userData, setUserData] = useState({});
@@ -9,6 +9,13 @@ const MyPage = () => {
     const [userProId, setUserProId] = useState('');
 
     const { id } = useParams();
+
+    const navigagte = useNavigate();
+
+    const userUpdateHandler = () => {
+        navigagte('/userupdate');
+    }
+
 
     const sendRequest = async () => {
         const response = await axios.get(`http://localhost:8080/mypage/${id}`);
@@ -68,6 +75,7 @@ const MyPage = () => {
                     </div>
                         </div> 
                     }
+                    <button onClick={userUpdateHandler}>정보수정</button>
                     </div>
                     </div>
         )

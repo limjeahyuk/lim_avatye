@@ -9,6 +9,7 @@ import Item from './component/product/item/Item';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import MyPage from './component/user/MyPage';
+import UserUpdate from './component/user/UserUpdate';
 
 
 
@@ -36,7 +37,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className='backgrounds'>
       <BrowserRouter>
         <HeadBox isLogin={isLogin} userName={userName} isLoginCheck={isLoginHandler} />
         <Routes>
@@ -46,6 +47,7 @@ function App() {
           <Route path='/post' element={<Post />} />
           <Route path='/item/:id' element={<Item name={userName} />} />
           <Route path='/mypage/:id' element={<MyPage />} />
+          <Route path='/userupdate' element={<UserUpdate name={userName} isLoginCheck={isLoginHandler } />} />
         </Routes>
       </BrowserRouter>
 
