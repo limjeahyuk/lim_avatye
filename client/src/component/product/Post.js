@@ -1,15 +1,24 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import classes from './Post.module.css';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { useNavigate } from "react-router-dom";
 
-const Post = () => {
-
+const Post = (props) => {
+    const [userId, setUserId] = useState('');
     const [postName, setPostName] = useState('');
     const [postCont, setPostCont] = useState('');
-    const [postPrice, setPostPrice] = useState('');
+    const [postPrice, setPostPrice] = useState('0');
     const [postFile, setPostFile] = useState('');
     const [postPreview, setPostPreview] = useState('');
     const [postCar, setPostCar] = useState('아케이드');
-    const [quantity, setQuantity] = useState('');
+    const [quantity, setQuantity] = useState('0');
+
+    
+    const navigate = useNavigate();
 
     // input 상태 관리
     const nameHandler = (e) => {
@@ -31,6 +40,13 @@ const Post = () => {
     const quantityHandler = (e) => {
         setQuantity(e.target.value);
     }
+
+    //props로 받아온 name을 이용하여 db에서 id 받아오기
+     const sendRequest = async () => {
+        const response = await axios.get(`http://localhost:8080/user/${props.name}`);
+        setUserId(response.data[0].userid);
+         console.log(response.data);
+    };
 
     //이미지 미리보기
     const encodeFileToBase64 = (fileBlob) => {
@@ -74,6 +90,7 @@ const Post = () => {
         e.preventDefault();
         
         const postData = {
+            userid: userId,
             proname: postName,
             procont: postCont,
             price: postPrice,
@@ -88,47 +105,91 @@ const Post = () => {
             data: postData
         }).then(function a(response) {
             console.log(response);
+            navigate('/');
         }).catch(function (error) {
             console.log(error);
         })
 
     };
 
+    useEffect(() => {
+        sendRequest(); 
+    },[])
+
+
     return (
-        <div>
+        <div className={classes.cont}>
+            <div className={classes.postname}>상품등록</div>
             <form onSubmit={submitClickHandler}>
                 <div>
-                    이름
-                    <input type="text" value={postName} onChange={nameHandler} />
+                    <label htmlFor="name">이름</label>
+                    <div className={classes.box}>
+                    <input
+                        id="name"
+                        type="text"
+                        value={postName}
+                        onChange={nameHandler}
+                        />
+                        </div>
+                </div>
+                <div className={classes.img}>
+                    <label>이미지</label>
+                    <input
+                        type="file"
+                        onChange={fileChangeHandler}
+                        accept="image/*"
+                        name="img"
+                        className={classes.file}
+                    />
+                </div>
+                <div className={classes.imgbox}>
+                    {postPreview && <img src={postPreview} alt="preview" />}
                 </div>
                 <div>
-                    내용
-                    <input type="text" value={postCont} onChange={contHandler} />
+                    <label>내용</label>
+                    <div className={classes.box}>
+                    <input
+                        type="text"
+                        value={postCont}
+                        onChange={contHandler}
+                        />
+                        </div>
                 </div>
                 <div>
-                    카테고리
+                    <label>카테고리</label>
+                    <div className={classes.car}>
                     <select onChange={selectChangeHandler} value={postCar}>
                         <option>아케이드</option>
                         <option>RPG</option>
                         <option>로그라이크</option>
                         <option>기타</option>
-                    </select>
+                        </select>
+                        </div>
                 </div>
                 <div>
-                    수량
-                    <input type="number" min="0" value={quantity} onChange={quantityHandler} />
+                    <label>수량</label>
+                    <div className={classes.count}>
+                        <KeyboardArrowLeftIcon />
+                    <input
+                        type="number"
+                        min="0"
+                        value={quantity}
+                        onChange={quantityHandler}
+                        />
+                        <KeyboardArrowRightIcon />
+                        </div>
                 </div>
                 <div>
-                    가격
-                    <input type="number" min= "0" value={postPrice} onChange={priceHandler} />
-                </div>
-                <div>
-                    이미지
-                    <input type="file" onChange={fileChangeHandler} accept="image/*"
-                        name="img" />
-                </div>
-                <div>
-                    {postPreview && <img src={postPreview} alt="preview" />}
+                    <label>가격</label>
+                    <div className={classes.price}>
+                        <AddIcon />
+                    <input
+                        type="number"
+                        min="0"
+                        value={postPrice}
+                            onChange={priceHandler} />
+                        <RemoveIcon />
+                        </div>
                 </div>
                 <button type="submit" >등록</button>
             </form>
