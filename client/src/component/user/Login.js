@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
- import classes from './Login.module.css';
+import classes from "./Login.module.css";
 
 const Login = (props) => {
     const [username, setUsername] = useState('');
@@ -51,19 +51,17 @@ const Login = (props) => {
 
     }
 
-    return (<div>
-        <h2>로그인</h2>
+    return (<div className={classes.cont}>
+        <div className={classes.login}>Login</div>
         <form onSubmit={loginHandler}>
-            <div>
-                아이디
-                <input type='text' onChange={idChangeHandler} value={username} minLength="4" />
+            <div className={ classes.idbox}>
+                <input type='text' onChange={idChangeHandler} value={username} minLength="4" placeholder="아이디" />
             </div>
-            <div>
-                비밀번호
-                <input type='password' onChange={pwChangeHandler} value={userpw} minLength="4" />
+            <div className={classes.pwbox}>
+                <input type='password' onChange={pwChangeHandler} value={userpw} minLength="4" placeholder="비밀번호"/>
             </div>
             <button disabled={username.trim().length > 0 && userpw.trim().length > 0 ? false : true}
-                type="submit">로그인</button>
+                type="submit" className={classes.btn}>로그인</button>
             
         </form>
     </div>)

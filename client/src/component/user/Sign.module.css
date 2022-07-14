@@ -1,7 +1,93 @@
-.none{
+.cont {
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    border-radius: 10px;
+    padding: 70px 0;
+    color: #010326;
+}
+
+.cont .sign {
+    font-size: 40px;
+    font-weight: 900;
+    margin-bottom: 25px;
+    margin-left: 40px;
+}
+
+.cont label{
+    margin: 10px;
+    color: #010326;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.cont form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+}
+
+.inputbox{
+    width: 550px;
+    height: 50px;
+    background-color: #F2F2F2;
+    border-radius: 50px;
+    margin-bottom: 20px;
+        
+}
+
+.cont .box:first-child .inputbox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputbox input{
+    border: none;
+    background-color: transparent;
+}
+
+.inputbox input:focus{
+    outline: none;
+}
+
+.cont input {
+    border: none;
+    background-color: transparent;
+    font-size: 20px;
+    width: 350px;
+    margin: 13px 50px;
+}
+
+.box button{
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cont form .none{
     display: none;
 }
 
-.block{
+.cont form .block{
     display: block;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.subbtn{
+    width: 100px;
+    height: 20px;
+    border: none;
+    font-size: 20px;
+    background-color: transparent;
+    cursor: pointer;
+    margin: 10px 0; 
 }

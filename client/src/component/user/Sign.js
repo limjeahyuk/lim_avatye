@@ -39,8 +39,8 @@ const Sign = () => {
     
     //중복체크 클릭
     const idValidHandler = () => {
-
-        axios({
+        if (userId.trim().length > 3) {
+            axios({
             url: 'http://localhost:8080/valid',
             method: 'post',
             data: { username: userId }
@@ -54,6 +54,9 @@ const Sign = () => {
         }).catch(function (error) {
             console.log(error);
         });
+        } else {
+            setIdValid('3');
+        } 
     }
     
     
@@ -69,7 +72,6 @@ const Sign = () => {
                     userpw: userPw.trim(),
                     usernick : userNick
                 }
-
                 axios({
                     url: "http://localhost:8080/sign",
                     method: 'post',
@@ -85,41 +87,46 @@ const Sign = () => {
             else {
                 alert("빈칸 없이 해주세요.");
             }
-            
         } else {
             alert('다 채워주세요.')
         }
-
-        
-
     }
 
-    return (<div>
-        <h2>
-            회원가입
-        </h2>
+    return (<div className={classes.cont}>
+        <div className={classes.sign}>
+            Sign
+        </div>
         <form onSubmit={signSubmitHandler}>
-            <div>
-                아이디
-                <input type="text" onChange={idChangeHandler} value={userId} minLength="4" />
-                <button type="button" onClick={idValidHandler}>중복체크</button>
-            </div>
-            <div className={idValid === '1' ? classes.none : classes.block}>
-                {idValid === '2' ? <div>good</div> : <div>에러</div>}
+            <div className={classes.box}>
+                <label htmlFor="signid">아이디</label>
+                <div className={classes.inputbox}>
+                    <input type="text" id="signid" onChange={idChangeHandler} value={userId} minLength="4" placeholder="아이디를 입력하세요" />
+                <button type="button" onClick={idValidHandler}>중복체크</button>    
                 </div>
-            <div>
-                비밀번호
-                <input type="password" onChange={pwChangeHandler} value={userPw} minLength="4"/>
+                <div className={idValid === '1' ? classes.none : classes.block}>
+                {idValid === '2' ? <div>너무 좋아요 👍</div> : <div style={{color: 'red'}}>아이디가 중복입니다 👻</div>}
+                </div>
             </div>
-            <div>
-                비밀번호 확인
-                <input type="password" onChange={pwhChangeHandler} minLength="4" />
+            
+            <div className={classes.box}>
+                <label htmlFor="signpw">비밀번호</label>
+                <div className={classes.inputbox}>
+                <input type="password" id="signpw" onChange={pwChangeHandler} value={userPw} minLength="4" placeholder="비밀번호를 입력하세요"/>
             </div>
-            <div>
-                닉네임
-                <input type="text" onChange={nickChangeHandler} value={userNick} minLength="1" />
-            </div>
-            <button type="submit"
+                </div>
+            <div className={classes.box}>
+                <label htmlFor="signpwh">비밀번호 확인</label>
+                <div className={classes.inputbox}>
+                <input type="password" id="signpwh" onChange={pwhChangeHandler} minLength="4" placeholder="비밀번호를 다시 입력하세요" />
+                </div>
+                </div>
+            <div className={classes.box}>
+                <label htmlFor="nick">닉네임</label>
+                <div className={classes.inputbox}>
+                <input type="text" id="nick" onChange={nickChangeHandler} value={userNick} minLength="1" placeholder="닉네임은 변경가능합니다." />
+                </div>
+                </div>
+            <button type="submit" className={classes.subbtn}
             disabled={idValid === '2' && pwValid ? false : true}>등록</button>
         </form>
     </div>)
