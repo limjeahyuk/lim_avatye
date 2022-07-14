@@ -1,7 +1,10 @@
 .headbox {
     margin-bottom: 30px;
-    height: 120px;
-    background-color: #ccc;
+    height: 160px;
+    background-color: #F2F2F2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .intro{
@@ -15,10 +18,46 @@
     margin-top: 10px;
 }
 
+.user a {
+    margin: 0 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #010B40;
+    transition: .5s;
+}
+.user a:hover{
+    color: #94C6F2;
+}
+
+.logout {
+    display: flex;
+    margin-top: 10px;
+}
+
+.logout div {
+    cursor: pointer;
+    margin: 0 10px;
+    color: #010B40;
+    transition: .5s;
+}
+
+.logout a {
+    margin: 0 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #010B40;
+    transition: .5s;
+}
+
+.logout div:hover, .logout a:hover{
+    color: #94C6F2;
+}
+
 .logo{
-    width: 300px;
-    font-size: 40px;
+    width: 400px;
+    font-size: 60px;
     font-weight: bold;
+    color: #010B40;
     margin: auto;
     text-align: center;
     cursor: pointer;
@@ -26,12 +65,25 @@
 
 .logo a{
     text-decoration: none;
-        color: black;
+        color: #010B40;
 }
 
-.user a{
-    margin: 0 10px;
-    cursor: pointer;
+.post{
+    width: 100px;
+    height: 25px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 10px 10px;
+}
+
+.post a{
     text-decoration: none;
-    color: black;
+    color: #010B40;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.post a:hover{
+    color: #94C6F2;
 }

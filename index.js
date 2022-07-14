@@ -270,6 +270,32 @@ app.put("/count/:id", function (req, res) {
     res.json("good");
 })
 
+// username을 이용하여 user 테이블 정보 변경
+app.put("/usernick/:name", function (req, res) {
+    const usernick = req.body.usernick;
+
+    const updatename = req.params.name;
+    const query = `UPDATE user SET usernick='${usernick}' WHERE username = '${updatename}'`
+    connection.query(query, (err, rows) => {
+        if (err) throw err;
+        return console.log("update success");
+    });
+    res.json("good");
+})
+
+// username을 이용하여 user password 정보변경
+app.put("/userpassword/:name", function (req, res) {
+    const userpw = req.body.userpassword;
+
+    const updatename = req.params.name;
+    const query = `UPDATE user SET userpw=${userpw} WHERE username = '${updatename}'`
+    connection.query(query, (err, rows) => {
+        if (err) throw err;
+        return console.log("update success");
+    });
+    res.json("good");
+})
+
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'));
