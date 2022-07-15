@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ShopProduct from "../product/UI/ShopProduct";
+import classes from './MyPage.module.css'
 
-const MyPage = () => {
+const MyPage = (props) => {
     const [userData, setUserData] = useState({});
     const [userNick, setUserNick] = useState('');
     const [userPro, setUserPro] = useState({});
@@ -20,14 +22,13 @@ const MyPage = () => {
     const sendRequest = async () => {
         const response = await axios.get(`http://localhost:8080/mypage/${id}`);
         setUserData(response.data);
-        console.log(response.data);
         setUserNick(response.data[0].usernick);
+        console.log(response.data);
     };
 
     const proRequest = async () => {
         const response = await axios.get(`http://localhost:8080/pro/${id}`);
         setUserPro(response.data);
-        console.log(response.data);
         setUserProId(response.data[0].userid)
     }
 
@@ -36,44 +37,56 @@ const MyPage = () => {
         proRequest();
     }, []);
 
-
- 
-        return (
-            <div>
-                {userNick && <div>
-            <div>
-                <h1>{userNick}</h1>
-            </div>
-            <div>
-                <h2>구매한 내역</h2>
-                    {userData.map((item) => (
-                        <div key={item.orderid}>
-                            <div>{item.proname}</div>
-                            <img src={item.proimg} alt="img" />
-                            <div>{item.price * item.count}원</div>
-                            <div>{item.count}개 구매</div>
-                            <div>{item.orderdate}</div>
-                        </div>
-                    ))}
+    return (
+        <div className={classes.cont}>
+            {userNick &&
+                <div className={classes.buy}>
+                    <div className={classes.head}>
+                    {userNick}님 환영합니다.
                     </div>
-                </div>
-                }
-                <div>
-                    {userProId &&
-                    <div>
-                    <h1>{userProId}</h1>
-                    <h2>등록한 상품</h2>
-                    <div>
-                        {userPro.map((item) => (
-                            <div key={item.proid}>
-                                <div>{item.proname}</div>
-                                <img src={item.proimg} alt="igm"></img>
-                                <div>{item.price}</div>
-                                <div>{item.quantity }</div>
-                                </div>
+                     <div className={classes.buyhead}>구매 내역</div>
+                    <div className={classes.list}>
+                        {userData.map((item) => (
+                                <ShopProduct
+                                    bool={false}
+                                    pdid={item.proid}
+                                    userid={item.userid}
+                                    key={item.orderid}
+                                    img={item.proimg}
+                                    name={item.proname}
+                                    price={item.price * item.count}
+                                    carte={item.proca}
+                                    count={item.quantity}
+                                    buycount={item.count}
+                                    date={item.orderdate}
+                                    id={props.userId}
+                                />
                         ))}
                     </div>
-                        </div> 
+                </div>
+            }
+                <div>
+                    {userProId &&
+                    <div className={classes.sell}>
+                        <h1 style={{display:'none'}}>{userProId}</h1>
+                        <div className={classes.sellhead}>등록한 상품</div>
+                        <div className={classes.list}>
+                            {userPro.map((item) => (   
+                                <ShopProduct
+                                    key={item.pdid}
+                                    pdid={item.proid}
+                                    userid={item.userid}
+                                    name={item.proname}
+                                    img={item.proimg}
+                                    price={item.price}
+                                    count={item.quantity}
+                                    carte={item.proca}
+                                    id={props.userId}
+                                    bool={true}
+                                />    
+                            ))}
+                        </div>
+                    </div> 
                     }
                     <button onClick={userUpdateHandler}>정보수정</button>
                     </div>

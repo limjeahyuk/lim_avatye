@@ -9,7 +9,10 @@ const Login = (props) => {
     const navigate = useNavigate();
 
     const idChangeHandler = (e) => {
-        setUsername(e.target.value);
+        
+        setUsername(String(e.target.value).replace(/ /g,""));
+        // setUsername(e.target.value.trim())
+        
     }
 
     const pwChangeHandler = (e) => {
@@ -19,7 +22,6 @@ const Login = (props) => {
     // login 확인 
     const loginHandler = (e) => {
         e.preventDefault();
-        
         if (username.trim().length > 0 && userpw.trim().length > 0) {
             const loginData = {
                 username: username.trim(),

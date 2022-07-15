@@ -51,7 +51,7 @@
 }
 
 
-.into .car, .into .no{
+.into .car, .into .no, .into .my{
     margin: 10px 10px 10px 0;
     padding: 3px;
     border-radius: 7px;
@@ -67,7 +67,12 @@
     color: white;
 }
 
-.right{
+.into .tag .my{
+    background-color: #94C6F2;
+    color: #010326;
+}
+
+.right>div{
     display: flex;
     flex-direction: column;
     align-items: flex-end;

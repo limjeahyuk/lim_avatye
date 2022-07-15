@@ -13,6 +13,7 @@ const HeadBox = (props) => {
         const response = await axios.get(`http://localhost:8080/user/${props.userName}`);
         setUserNick(response.data[0].usernick);
         setUserId(response.data[0].userid);
+        props.isIdChange(response.data[0].userid);
     };
 
     useEffect(() => {
