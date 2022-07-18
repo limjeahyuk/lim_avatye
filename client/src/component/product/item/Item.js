@@ -66,7 +66,6 @@ const Item = (props) => {
             proid={id}
             username={props.name}
             count={count}
-            updatecount={itemData[0].quantity - count}
         />}
         <div className={classes.header}>상세페이지</div>
     {itemData[0] &&

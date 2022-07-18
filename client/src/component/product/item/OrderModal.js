@@ -42,7 +42,6 @@ const Modal = ({ onConfirm, proid, username, count, updatecount }) => {
             username: username,
             count: count,
             orderdate: new Date().toISOString().slice(0, 10),
-            updatecount: updatecount,
             type: cashOption,
             data: JSON.stringify(cashInfo),
             email: emailFull
@@ -53,7 +52,7 @@ const Modal = ({ onConfirm, proid, username, count, updatecount }) => {
             method: 'post',
             data: orderData
         }).then(function a(response) {
-            alert('구매가 완료되었습니다.')
+            alert(response.data);
             navigate('/');
         }).catch(function (error) {
             console.log(error);
