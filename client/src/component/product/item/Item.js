@@ -2,10 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import classes from './Item.module.css';
+import OrderModal from "./OrderModal.js"
 
 const Item = (props) => {
     const [itemData, setItemData] = useState({});
     const [count, setCount] = useState(0);
+    const [orderState, setOrderState] = useState(false);
+
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -29,30 +32,42 @@ const Item = (props) => {
 
     // 구매버튼 눌렀을 때
     const buySubmitHandler = (e) => {
+        setOrderState(true)
         e.preventDefault();
         
-        const orderData = {
-            proid: id,
-            username: props.name,
-            count: count,
-            orderdate: new Date().toISOString().slice(0, 10),
-            updatecount: itemData[0].quantity - count
-        };
+        // const orderData = {
+        //     proid: id,
+        //     username: props.name,
+        //     count: count,
+        //     orderdate: new Date().toISOString().slice(0, 10),
+        //     updatecount: itemData[0].quantity - count
+        // };
         
-        axios({
-            url: "http://localhost:8080/buy",
-            method: 'post',
-            data: orderData
-        }).then(function a(response) {
-            alert('구매가 완료되었습니다.')
-            navigate('/');
-        }).catch(function (error) {
-            console.log(error);
-        });
+        // axios({
+        //     url: "http://localhost:8080/buy",
+        //     method: 'post',
+        //     data: orderData
+        // }).then(function a(response) {
+        //     alert('구매가 완료되었습니다.')
+        //     navigate('/');
+        // }).catch(function (error) {
+        //     console.log(error);
+        // });
+    }
+
+    const onChangeHandler = () => {
+        setOrderState(false);
     }
 
 
     return <>
+        {orderState && <OrderModal
+            onConfirm={onChangeHandler}
+            proid={id}
+            username={props.name}
+            count={count}
+            updatecount={itemData[0].quantity - count}
+        />}
         <div className={classes.header}>상세페이지</div>
     {itemData[0] &&
             <div className={classes.item}>
