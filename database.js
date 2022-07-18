@@ -4,4 +4,5 @@ module.exports = {
     port: 3306,
     password: '1004',
     database: 'schema_avatye',
+    multipleStatements: true
 };

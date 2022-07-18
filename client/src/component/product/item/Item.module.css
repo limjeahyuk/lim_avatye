@@ -1,23 +1,31 @@
 .header{
+    width: 200px;
     text-align: center;
-    margin: 40px 0;
+    margin: 60px auto;
     font-size: 30px;
     font-weight: bold;
+    border-bottom: 2px solid #94C6F2;
+    padding-bottom: 15px;
+    color: #010326;
 }
+
 .item{
     width: 700px;
     border: 1px solid rgb(181, 181, 181);
     border-radius: 15px;
     margin: auto;
+    box-shadow: 5px 5px 5px rgba(0,0,0,.5);
+    color: #010326;
 }
 
 .head h1{   
     text-align: center;
+    font-size: 40px;
 }
 
 .head p{
     text-align: right;
-    margin: 10px;
+    margin: 10px 20px;
 }
 
 .imgbox{
@@ -44,8 +52,8 @@
 
 .cont .car{
     padding: 5px;
-    background-color: #eee;
-    border-radius: 5px;
+    background-color: #F2EEAC;
+    border-radius: 7px;
     font-size: 20px;
 }
 
@@ -72,4 +80,14 @@
 .buy input{
     width: 100px;
     margin-right: 10px;
+}
+
+.buy input::-webkit-outer-spin-button,
+.buy input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.alrt{
+
 }

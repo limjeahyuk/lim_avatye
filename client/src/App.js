@@ -16,6 +16,7 @@ import UserUpdate from './component/user/UserUpdate';
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userId, setUserId] = useState('');
 
   const isLoginHandler = (bool) => {
     setIsLogin(bool);
@@ -23,7 +24,13 @@ function App() {
     if (bool === true) {
     const token = localStorage.getItem('lim-token');
       setUserName(jwt_decode(token).username);
+    } else {
+      setUserName('');
     }
+  }
+
+  const userChangeId = (id) => {
+    setUserId(id);
   }
 
   useEffect(() => {
@@ -32,21 +39,20 @@ function App() {
       const token = localStorage.getItem('lim-token');
       setUserName(jwt_decode(token).username);
     }
-    
   },[])
 
 
   return (
     <div className='backgrounds'>
       <BrowserRouter>
-        <HeadBox isLogin={isLogin} userName={userName} isLoginCheck={isLoginHandler} />
+        <HeadBox isLogin={isLogin} userName={userName} isLoginCheck={isLoginHandler} isIdChange={userChangeId} />
         <Routes>
-          <Route path="/" element={<ShopMain />} />
+          <Route path="/" element={<ShopMain userId={ userId} />} />
           <Route path='/login' element={<Login isLoginCheck={ isLoginHandler} />} />
           <Route path='/sign' element={<Sign />} />
           <Route path='/post' element={<Post name={ userName} />} />
           <Route path='/item/:id' element={<Item name={userName} />} />
-          <Route path='/mypage/:id' element={<MyPage />} />
+          <Route path='/mypage/:id' element={<MyPage userId={userId} />} />
           <Route path='/userupdate' element={<UserUpdate name={userName} isLoginCheck={isLoginHandler } />} />
         </Routes>
       </BrowserRouter>

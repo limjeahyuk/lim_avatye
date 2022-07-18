@@ -241,16 +241,20 @@ app.post("/post", function (req, res) {
     res.json(req.body);
 })
 
-// 제품 구매버튼 눌렀을 때 order 테이블에 저장.
+// 제품 구매버튼 눌렀을 때 order 테이블에 저장. 후 product 테이블 수량 변경
+// 트랜잭션으로 한번에 해버림.
 app.post("/buy", function (req, res) {
     const rb = req.body;
     const proid = rb.proid;
     const username = rb.username;
     const count = rb.count;
     const orderdate = rb.orderdate;
-    
-
-    const query = `INSERT INTO \`order\`(PROID, USERNAME, COUNT, ORDERDATE) VALUE (${proid},'${username}',${count}, '${orderdate}')`;
+    const updatecount = rb.updatecount;
+    const query = `start transaction;
+    INSERT INTO \`order\`(PROID, USERNAME, COUNT, ORDERDATE) VALUE (${proid},'${username}',${count}, '${orderdate}');
+    UPDATE product SET quantity=${updatecount} WHERE proid = ${proid};
+    commit;
+    `
     connection.query(query, (err, rows) => {
         if (err) throw err;
         return console.log("insert order success");
@@ -258,18 +262,6 @@ app.post("/buy", function (req, res) {
     res.json(req.body);
 })
 
-// 제품 구매버튼 눌렀을 때 product 테이블 수량 변경
-app.put("/count/:id", function (req, res) {
-    const count = req.body.count;
-
-    const updateid = parseInt(req.params.id);
-    const query = `UPDATE product SET quantity=${count} WHERE proid = ${updateid}`
-    connection.query(query, (err, rows) => {
-        if (err) throw err;
-        return console.log("update success");
-    });
-    res.json("good");
-})
 
 // username을 이용하여 user 테이블 정보 변경
 app.put("/usernick/:name", function (req, res) {

@@ -11,35 +11,35 @@ const Post = (props) => {
     const [userId, setUserId] = useState('');
     const [postName, setPostName] = useState('');
     const [postCont, setPostCont] = useState('');
-    const [postPrice, setPostPrice] = useState('0');
+    const [postPrice, setPostPrice] = useState(0);
     const [postFile, setPostFile] = useState('');
     const [postPreview, setPostPreview] = useState('');
     const [postCar, setPostCar] = useState('아케이드');
-    const [quantity, setQuantity] = useState('0');
+    const [quantity, setQuantity] = useState(0);
 
     
     const navigate = useNavigate();
 
     // input 상태 관리
-    const nameHandler = (e) => {
-        setPostName(e.target.value);
-    }
+    const nameHandler = (e) => {setPostName(e.target.value);}
+    const contHandler = (e) => {setPostCont(e.target.value);}
+    const priceHandler = (e) => {setPostPrice(e.target.value);}
+    const selectChangeHandler = (e) => {setPostCar(e.target.value);}
+    const quantityHandler = (e) => {setQuantity(e.target.value);}
+    const priceZeroHandler = () => { setPostPrice(''); }
+    const quantityZeroHandler = () => { setQuantity(''); }
 
-    const contHandler = (e) => {
-        setPostCont(e.target.value);
-    }
 
-    const priceHandler = (e) => {
-        setPostPrice(e.target.value);
+    //icon 클릭시 숫자 변경
+    const onCountAdd = () => {setQuantity(pre => pre + 1);}
+    const onCountDown = () => {
+        if (quantity === 0) {
+            setQuantity(0)
+        }else{setQuantity(pre => pre - 1);}
+        
     }
-
-    const selectChangeHandler = (e) => {
-        setPostCar(e.target.value);
-    }
-
-    const quantityHandler = (e) => {
-        setQuantity(e.target.value);
-    }
+    const onPriceAdd = () => {setPostPrice(pre => pre + 1000);}
+    const onPriceDown = () => {setPostPrice(pre => pre - 1000);}
 
     //props로 받아온 name을 이용하여 db에서 id 받아오기
      const sendRequest = async () => {
@@ -169,26 +169,30 @@ const Post = (props) => {
                 <div>
                     <label>수량</label>
                     <div className={classes.count}>
-                        <KeyboardArrowLeftIcon />
+                        <KeyboardArrowLeftIcon onClick={onCountDown} />
                     <input
                         type="number"
                         min="0"
                         value={quantity}
-                        onChange={quantityHandler}
+                            onChange={quantityHandler}
+                            onClick={quantityZeroHandler}
                         />
-                        <KeyboardArrowRightIcon />
+                        <KeyboardArrowRightIcon onClick={onCountAdd} />
                         </div>
                 </div>
                 <div>
                     <label>가격</label>
                     <div className={classes.price}>
-                        <AddIcon />
+                        <RemoveIcon onClick={onPriceAdd} />
                     <input
                         type="number"
                         min="0"
                         value={postPrice}
-                            onChange={priceHandler} />
-                        <RemoveIcon />
+                        onChange={priceHandler}
+                        onClick={priceZeroHandler}    
+                    />
+                        
+                        <AddIcon onClick={onPriceDown} />
                         </div>
                 </div>
                 <button type="submit" >등록</button>
