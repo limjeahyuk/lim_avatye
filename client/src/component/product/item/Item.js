@@ -35,10 +35,9 @@ const Item = (props) => {
             proid: id,
             username: props.name,
             count: count,
-            orderdate: new Date().toISOString().slice(0,10)
+            orderdate: new Date().toISOString().slice(0, 10),
+            updatecount: itemData[0].quantity - count
         };
-
-        const itemCount = itemData[0].quantity - count;
         
         axios({
             url: "http://localhost:8080/buy",
@@ -46,19 +45,10 @@ const Item = (props) => {
             data: orderData
         }).then(function a(response) {
             alert('구매가 완료되었습니다.')
-        }).catch(function (error) {
-            console.log(error);
-        });
-
-        axios({
-            url: `http://localhost:8080/count/${id}`,
-            method: 'put',
-            data: {count : itemCount}
-        }).then(function a(response) {
             navigate('/');
         }).catch(function (error) {
             console.log(error);
-        })
+        });
     }
 
 
