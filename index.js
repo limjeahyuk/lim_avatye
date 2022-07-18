@@ -250,8 +250,12 @@ app.post("/buy", function (req, res) {
     const count = rb.count;
     const orderdate = rb.orderdate;
     const updatecount = rb.updatecount;
+    const ordertype = rb.type;
+    const orderinfo = rb.data;
+    const orderemail = rb.email;
     const query = `start transaction;
-    INSERT INTO \`order\`(PROID, USERNAME, COUNT, ORDERDATE) VALUE (${proid},'${username}',${count}, '${orderdate}');
+    INSERT INTO \`order\`(PROID, USERNAME, COUNT, ORDERDATE, ORDERTYPE, ORDERINFO, ORDEREMAIL) VALUE
+     (${proid},'${username}',${count}, '${orderdate}', '${ordertype}' ,'${orderinfo}','${orderemail}');
     UPDATE product SET quantity=${updatecount} WHERE proid = ${proid};
     commit;
     `
@@ -261,6 +265,7 @@ app.post("/buy", function (req, res) {
     });
     res.json(req.body);
 })
+
 
 
 // username을 이용하여 user 테이블 정보 변경
