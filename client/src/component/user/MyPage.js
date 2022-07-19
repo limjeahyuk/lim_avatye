@@ -23,8 +23,6 @@ const MyPage = ({userId, isLoginCheck}) => {
         const response = await axios.get(`http://localhost:8080/mypage/${id}`);
         setUserData(response.data);
         setUserNick(response.data[0].usernick);
-
-        
     };
 
     const proRequest = async () => {
