@@ -3,29 +3,26 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./Login.module.css";
 
-const Login = (props) => {
+const Login = ({isLoginCheck}) => {
     const [username, setUsername] = useState('');
     const [userpw, setUserpw] = useState('');
     const navigate = useNavigate();
 
     const idChangeHandler = (e) => {
-        
         setUsername(String(e.target.value).replace(/ /g,""));
-        // setUsername(e.target.value.trim())
-        
     }
 
     const pwChangeHandler = (e) => {
-        setUserpw(e.target.value);
+        setUserpw(String(e.target.value).replace(/ /g,""));
     }
 
     // login 확인 
     const loginHandler = (e) => {
         e.preventDefault();
-        if (username.trim().length > 0 && userpw.trim().length > 0) {
+        if (username.length > 0 && userpw.length > 0) {
             const loginData = {
-                username: username.trim(),
-                password: userpw.trim()
+                username: username,
+                password: userpw
             };
 
             //login api
@@ -35,10 +32,10 @@ const Login = (props) => {
                 data: loginData
             }).then(function a(response) {
                 console.log(response.data);
-            if (response.data[0].username === username.trim() || response.data[0].userpassword === userpw.trim()) {
+            if (response.data[0].username === username || response.data[0].userpassword === userpw) {
                 // login성공
                 localStorage.setItem('lim-token', response.data.token);
-                props.isLoginCheck(true);
+                isLoginCheck(true);
                 navigate('/');             
             } else {
                 //로그인 x
@@ -62,7 +59,7 @@ const Login = (props) => {
             <div className={classes.pwbox}>
                 <input type='password' onChange={pwChangeHandler} value={userpw} minLength="4" placeholder="비밀번호"/>
             </div>
-            <button disabled={username.trim().length > 0 && userpw.trim().length > 0 ? false : true}
+            <button disabled={username.length > 0 && userpw.length > 0 ? false : true}
                 type="submit" className={classes.btn}>로그인</button>
             
         </form>

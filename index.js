@@ -145,7 +145,8 @@ app.post('/login', function (req, res) {
                 if (rows.length > 0) {
                     // jwt 처리
                     jwt.sign({
-                        username: username
+                        userid: rows[0].userid,
+                        username: rows[0].username
                     }, HYUK_TOKEN,
                         {
                         expiresIn:'1h'
@@ -243,29 +244,41 @@ app.post("/post", function (req, res) {
 
 // 제품 구매버튼 눌렀을 때 order 테이블에 저장. 후 product 테이블 수량 변경
 // 트랜잭션으로 한번에 해버림.
-app.post("/buy", function (req, res) {
+ function itemcount(req, res) {
     const rb = req.body;
     const proid = rb.proid;
     const username = rb.username;
     const count = rb.count;
     const orderdate = rb.orderdate;
-    const updatecount = rb.updatecount;
     const ordertype = rb.type;
     const orderinfo = rb.data;
     const orderemail = rb.email;
     const query = `start transaction;
     INSERT INTO \`order\`(PROID, USERNAME, COUNT, ORDERDATE, ORDERTYPE, ORDERINFO, ORDEREMAIL) VALUE
      (${proid},'${username}',${count}, '${orderdate}', '${ordertype}' ,'${orderinfo}','${orderemail}');
-    UPDATE product SET quantity=${updatecount} WHERE proid = ${proid};
+    UPDATE product SET quantity=quantity-${count} WHERE proid = ${proid};
     commit;
     `
     connection.query(query, (err, rows) => {
         if (err) throw err;
-        return console.log("insert order success");
+        return res.send('주문이 완료되었습니다.')
     });
-    res.json(req.body);
-})
+}
 
+// 주문클릭했을 시 수량 확인.
+app.post('/buy', function (req, res) {
+    const proid = req.body.proid;
+    const count = req.body.count;
+    const query = `select * from product where proid= ${proid}`
+    connection.query(query, (err, rows) => {
+        if (err) throw err;
+        if (rows[0].quantity >= count) {
+            itemcount(req, res);
+        } else {
+            res.send('수량이 없습니다.')
+        }
+    })
+})
 
 
 // username을 이용하여 user 테이블 정보 변경

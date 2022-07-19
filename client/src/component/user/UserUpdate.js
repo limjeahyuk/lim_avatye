@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserUpdate = (props) => {
+const UserUpdate = ({name, isLoginCheck}) => {
     const [nickName, setNickName] = useState('');
     const [password, setPassword] = useState('');
     const [passwordChk, setPasswordChk] = useState(false);
@@ -25,7 +25,7 @@ const UserUpdate = (props) => {
 
     const nickSubmitHandler = (e) => {
         e.preventDefault();
-        const no = props.name;
+        const no = name;
         const nickname = {
             usernick: nickName
         }
@@ -36,7 +36,7 @@ const UserUpdate = (props) => {
         }).then(function a(response) {
             console.log("good");
             alert("변경 되었습니다. 로그인을 다시 해주세요");
-            props.isLoginCheck(false);
+            isLoginCheck(false);
             localStorage.removeItem('lim-token');
             navigagte('/');
         })
@@ -46,7 +46,7 @@ const UserUpdate = (props) => {
     const passwordSubmitHandler = (e) => {
         e.preventDefault();
         if (password.trim().length > 3) {
-            const no = props.name;
+            const no = name;
             const updatepw = {
                 userpassword: password
             }
@@ -57,7 +57,7 @@ const UserUpdate = (props) => {
             }).then(function a(response) {
                 console.log("good");
                 alert("변경 되었습니다. 로그인을 다시 해주세요");
-                props.isLoginCheck(false);
+                isLoginCheck(false);
                 localStorage.removeItem('lim-token');
                 navigagte('/');
             })
