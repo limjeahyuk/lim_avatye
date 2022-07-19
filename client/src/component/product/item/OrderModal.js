@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ModalCont from "./modal/ModalCont";
 import classes from './OrderModal.module.css'
 
-const Modal = ({ onConfirm, proid, username, count }) => {
+const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress }) => {
     
     const navigate = useNavigate();
 
@@ -12,22 +12,31 @@ const Modal = ({ onConfirm, proid, username, count }) => {
     const [cashOption, setCashOption] = useState('');
     const [cashInfo, setCashInfo] = useState({});
     const [email, setEmail] = useState('');
+    const [emailAddress, setEmailAddress] = useState('')
     const [emailFull, setEmaillFull] = useState('');
 
     const onCashHandler = (e) => {
         setCashApper(true)
         setCashOption(e.target.value);
+        setEmail(pemail);
+        setEmailAddress(pemailAddress);
+        setEmaillFull(pemail + "@" + pemailAddress);
     }
 
     const cashInfoHandler = (data) => {
         setCashInfo( data );
     }
 
+    const onClearEmail = () => {
+        setEmail('');
+    }
+
     const onEmailHandler = (e) => {
-        setEmail(String(e.target.value).replace(/ /g,""));
+        setEmail(String(e.target.value).replace(/ /g, ""));
     }
 
     const onEmailAddress = (e) => {
+        setEmailAddress(e.target.value);
         setEmaillFull(email + "@" + e.target.value);
     }
 
@@ -35,7 +44,6 @@ const Modal = ({ onConfirm, proid, username, count }) => {
         e.preventDefault();
         if (cashApper) {
             console.log("ee");
-            
             onConfirm();
         const orderData = {
             proid: proid,
@@ -57,10 +65,7 @@ const Modal = ({ onConfirm, proid, username, count }) => {
         }).catch(function (error) {
             console.log(error);
         });
-
-
         }
-        
     }
 
 
@@ -86,10 +91,10 @@ const Modal = ({ onConfirm, proid, username, count }) => {
                         <ModalCont cashtype={cashOption} onCashInfo={cashInfoHandler} />
                         <div>
                     <label>이메일</label>
-                            <input type="text" value={email} onChange={onEmailHandler} />
+                            <input type="text" value={email} onChange={onEmailHandler} onClick={onClearEmail} />
                     @
-                    <select onChange={onEmailAddress}>
-                        <option value="none" hidden > ===</option>
+                    <select onChange={onEmailAddress} value={emailAddress}>
+                        <option value="" hidden > ===</option>
                         <option value="naver.com">naver.com</option>
                         <option value="nate.com">nate.com</option>
                         <option value="gmail.com">gmail.com</option>

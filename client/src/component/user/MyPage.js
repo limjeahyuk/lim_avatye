@@ -23,27 +23,26 @@ const MyPage = ({userId, isLoginCheck}) => {
         const response = await axios.get(`http://localhost:8080/mypage/${id}`);
         setUserData(response.data);
         setUserNick(response.data[0].usernick);
-        console.log(response.data);
+
+        
     };
 
     const proRequest = async () => {
         const response = await axios.get(`http://localhost:8080/pro/${id}`);
         setUserPro(response.data);
         setUserProId(response.data[0].userid)
+
     }
 
     useEffect(() => {  
-        if (""+userId === ""+id) {
-            sendRequest();
-            proRequest();
-        } else {
-            alert('비정상적인 접근입니다.');
-            isLoginCheck(false);
-            localStorage.removeItem('lim-token');
-            navigagte('/');
-        }  
+        sendRequest();
+        proRequest();
     },[]);
 
+
+    if ("" + userId !== "" + id) {
+        navigagte('/');
+    }
     return (
         <div className={classes.cont}>
             {userNick &&
