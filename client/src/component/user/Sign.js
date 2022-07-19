@@ -8,6 +8,7 @@ const Sign = () => {
     const [userId, setUserId] = useState('');
     const [userPw, setUserPw] = useState('');
     const [userNick, setUserNick] = useState('');
+    const [userPwh, setUserPwh] = useState('');
 
     // 확인
     const [idValid, setIdValid] = useState('1');
@@ -18,14 +19,17 @@ const Sign = () => {
 
     // input창 value 관리
     const idChangeHandler = (e) => {
-        setUserId(e.target.value);
+        setUserId(String(e.target.value).replace(/ /g,""));
     }
 
     const pwChangeHandler = (e) => {
-        setUserPw(e.target.value);
+        setUserPw(String(e.target.value).replace(/ /g, ""));
+        setUserPwh('');
+        setPwValid(false);
     }
 
     const pwhChangeHandler = (e) => {
+        setUserPwh(String(e.target.value).replace(/ /g, ""));
         if (userPw === e.target.value) {
             setPwValid(true)
         } else {
@@ -34,12 +38,12 @@ const Sign = () => {
     }
 
      const nickChangeHandler = (e) => {
-        setUserNick(e.target.value);
+        setUserNick(String(e.target.value).replace(/ /g, ""));
      }
     
     //중복체크 클릭
     const idValidHandler = () => {
-        if (userId.trim().length > 3) {
+        if (userId.length > 3) {
             axios({
             url: 'http://localhost:8080/valid',
             method: 'post',
@@ -66,10 +70,10 @@ const Sign = () => {
         e.preventDefault();
 
         if (idValid === '2' && pwValid) {
-            if (userId.trim().length > 3 && userPw.trim().length > 3) {
+            if (userId.length > 3 && userPw.length > 3) {
                 const userData = {
-                    username: userId.trim(),
-                    userpw: userPw.trim(),
+                    username: userId,
+                    userpw: userPw,
                     usernick : userNick
                 }
                 axios({
@@ -117,7 +121,7 @@ const Sign = () => {
             <div className={classes.box}>
                 <label htmlFor="signpwh">비밀번호 확인</label>
                 <div className={classes.inputbox}>
-                <input type="password" id="signpwh" onChange={pwhChangeHandler} minLength="4" placeholder="비밀번호를 다시 입력하세요" />
+                <input type="password" id="signpwh" onChange={pwhChangeHandler} value={userPwh} minLength="4" placeholder="비밀번호를 다시 입력하세요" />
                 </div>
                 </div>
             <div className={classes.box}>

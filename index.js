@@ -145,7 +145,8 @@ app.post('/login', function (req, res) {
                 if (rows.length > 0) {
                     // jwt 처리
                     jwt.sign({
-                        username: username
+                        userid: rows[0].userid,
+                        username: rows[0].username
                     }, HYUK_TOKEN,
                         {
                         expiresIn:'1h'

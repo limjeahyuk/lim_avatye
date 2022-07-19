@@ -4,12 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import classes from './Item.module.css';
 import OrderModal from "./OrderModal.js"
 
-const Item = (props) => {
+const Item = ({name}) => {
     const [itemData, setItemData] = useState({});
     const [count, setCount] = useState(0);
     const [orderState, setOrderState] = useState(false);
-
-    const navigate = useNavigate();
     const { id } = useParams();
 
     const sendRequest = async () => {
@@ -34,37 +32,17 @@ const Item = (props) => {
     const buySubmitHandler = (e) => {
         setOrderState(true)
         e.preventDefault();
-        
-        // const orderData = {
-        //     proid: id,
-        //     username: props.name,
-        //     count: count,
-        //     orderdate: new Date().toISOString().slice(0, 10),
-        //     updatecount: itemData[0].quantity - count
-        // };
-        
-        // axios({
-        //     url: "http://localhost:8080/buy",
-        //     method: 'post',
-        //     data: orderData
-        // }).then(function a(response) {
-        //     alert('구매가 완료되었습니다.')
-        //     navigate('/');
-        // }).catch(function (error) {
-        //     console.log(error);
-        // });
     }
 
     const onChangeHandler = () => {
         setOrderState(false);
     }
 
-
     return <>
         {orderState && <OrderModal
             onConfirm={onChangeHandler}
             proid={id}
-            username={props.name}
+            username={name}
             count={count}
         />}
         <div className={classes.header}>상세페이지</div>
@@ -80,12 +58,14 @@ const Item = (props) => {
                 <div className={classes.cont}>
                     <div className={classes.tag}>
                         <div className={classes.car}>{itemData[0].proca}</div>
+                        {itemData[0].quantity === 0 && <div className={classes.no}>품절</div>}
+                        {itemData[0].username === name && <div className={classes.my}>MY</div>}
                     </div>
                     <div className={classes.itemcont}>{itemData[0].procont}</div>
                     <div className={classes.info}>
                         <div>가격 : {itemData[0].price} 원</div>
                         <div>남은 수량 : {itemData[0].quantity}개</div>
-                        {props.name ?
+                        {name ?
                             <form className={classes.buy} onSubmit={buySubmitHandler}>
                                 <input
                                     type="number"
@@ -94,10 +74,12 @@ const Item = (props) => {
                                     value={count}
                                     onChange={countHandler}
                                     onClick={inputZeroHandler}
+                                    disabled={itemData[0].quantity !== 0 ? false : true}
                                 />
-                                <button type="submit" disabled={props.name ? false : true}>구매</button>
+                                <button type="submit" disabled={itemData[0].quantity !== 0 ? false : true}>구매</button>
                             </form> :
                             <div className={classes.alrt}>로그인 먼저 해주세요</div>}
+                        {itemData[0].quantity === 0 && <div>품절입니다</div>}
                     </div>
                 </div>
         </div>}

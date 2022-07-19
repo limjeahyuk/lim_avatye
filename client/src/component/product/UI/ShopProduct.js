@@ -3,39 +3,35 @@ import { useNavigate } from "react-router-dom";
 import classes from './ShopProduct.module.css';
 
 
-const ShopProduct = (props) => {
+const ShopProduct = ({bool, pdid, img, id, name ,userid, carte, count, date, price, buycount}) => {
     const navigate = useNavigate();
 
     const pdClickHandler = (pdid, e) => {
-        if (props.count === 0) {
-            alert('구매 불가능 합니다.')
-        } else {
-        navigate(`/item/${pdid}`);
-        }
+        navigate(`/item/${pdid}`);   
     }
 
     return (
-         <div className={classes.item} onClick={(e) => pdClickHandler(props.pdid, e)}>
-            <div className={classes.name}>{props.name}</div>
+         <div className={classes.item} onClick={(e) => pdClickHandler(pdid, e)}>
+            <div className={classes.name}>{name}</div>
             <div className={classes.imgbox}>
-                <img src={props.img} alt="game_img"></img>
+                <img src={img} alt="game_img"></img>
             </div>
             <div className={classes.into}>
                 <div className={classes.tag}>
-                    <div className={classes.car}>{props.carte} </div>
-                    {props.count === 0 && <div className={classes.no}>품절</div>}
-                    {props.id === props.userid && <div className={classes.my}>My</div>}
+                    <div className={classes.car}>{carte} </div>
+                    {count === 0 && <div className={classes.no}>품절</div>}
+                    {id === userid && <div className={classes.my}>My</div>}
                 </div>
                 
                 <div className={classes.right}>
-                    {props.bool ? <div>
-                        <div className={classes.count}>남은 수량 {props.count}개 </div>
-                <div className={classes.price}>개당 {props.price}원</div>
+                    {bool ? <div>
+                        <div className={classes.count}>남은 수량 {count}개 </div>
+                <div className={classes.price}>개당 {price}원</div>
                     </div> : 
                         <div>
-                            <div className={classes.count}>구매한수량 {props.buycount}개 </div>
-                            <div className={classes.price}>총 {props.price}원</div>
-                            <div className={classes.price}>{props.date}</div>
+                            <div className={classes.count}>구매한수량 {buycount}개 </div>
+                            <div className={classes.price}>총 {price}원</div>
+                            <div className={classes.price}>{date}</div>
                             </div>
                     }
                     

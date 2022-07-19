@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ModalCont from "./modal/ModalCont";
 import classes from './OrderModal.module.css'
 
-const Modal = ({ onConfirm, proid, username, count, updatecount }) => {
+const Modal = ({ onConfirm, proid, username, count }) => {
     
     const navigate = useNavigate();
 

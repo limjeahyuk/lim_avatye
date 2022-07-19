@@ -7,8 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useNavigate } from "react-router-dom";
 
-const Post = (props) => {
-    const [userId, setUserId] = useState('');
+const Post = ({userId}) => {
     const [postName, setPostName] = useState('');
     const [postCont, setPostCont] = useState('');
     const [postPrice, setPostPrice] = useState(0);
@@ -40,13 +39,6 @@ const Post = (props) => {
     }
     const onPriceAdd = () => {setPostPrice(pre => pre + 1000);}
     const onPriceDown = () => {setPostPrice(pre => pre - 1000);}
-
-    //props로 받아온 name을 이용하여 db에서 id 받아오기
-     const sendRequest = async () => {
-        const response = await axios.get(`http://localhost:8080/user/${props.name}`);
-        setUserId(response.data[0].userid);
-         console.log(response.data);
-    };
 
     //이미지 미리보기
     const encodeFileToBase64 = (fileBlob) => {
@@ -111,10 +103,6 @@ const Post = (props) => {
         })
 
     };
-
-    useEffect(() => {
-        sendRequest(); 
-    },[])
 
 
     return (

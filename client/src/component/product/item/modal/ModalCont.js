@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ModalCard from "./ModalCard";
 import ModalCulture from "./ModalCulture";
 import ModalKakao from "./ModalKakao";

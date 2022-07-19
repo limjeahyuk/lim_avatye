@@ -4,7 +4,7 @@ import classes from './ShopMain.module.css';
 import ShopProduct from "../product/UI/ShopProduct";
 import NativeSelectDemo from "../product/UI/NativeSelectDemo";
 
-const ShopMain = (props) => {
+const ShopMain = ({userId}) => {
     const [data, setData] = useState([{}]);
     
     const sendFullRequest = async () => {
@@ -33,7 +33,7 @@ const ShopMain = (props) => {
                 carte={item.proca}
                 price={item.price}
                 count={item.quantity}
-                id={props.userId}
+                id={userId}
             />
         ))}
             </div>

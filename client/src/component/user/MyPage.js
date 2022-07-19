@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ShopProduct from "../product/UI/ShopProduct";
 import classes from './MyPage.module.css'
 
-const MyPage = (props) => {
+const MyPage = ({userId, isLoginCheck}) => {
     const [userData, setUserData] = useState({});
     const [userNick, setUserNick] = useState('');
     const [userPro, setUserPro] = useState({});
@@ -32,10 +32,17 @@ const MyPage = (props) => {
         setUserProId(response.data[0].userid)
     }
 
-    useEffect(() => {
-        sendRequest();
-        proRequest();
-    }, []);
+    useEffect(() => {  
+        if (""+userId === ""+id) {
+            sendRequest();
+            proRequest();
+        } else {
+            alert('비정상적인 접근입니다.');
+            isLoginCheck(false);
+            localStorage.removeItem('lim-token');
+            navigagte('/');
+        }  
+    },[]);
 
     return (
         <div className={classes.cont}>
@@ -59,7 +66,7 @@ const MyPage = (props) => {
                                     count={item.quantity}
                                     buycount={item.count}
                                     date={item.orderdate}
-                                    id={props.userId}
+                                    id={userId}
                                 />
                         ))}
                     </div>
@@ -81,7 +88,7 @@ const MyPage = (props) => {
                                     price={item.price}
                                     count={item.quantity}
                                     carte={item.proca}
-                                    id={props.userId}
+                                    id={userId}
                                     bool={true}
                                 />    
                             ))}
