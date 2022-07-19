@@ -9,6 +9,8 @@ const Sign = () => {
     const [userPw, setUserPw] = useState('');
     const [userNick, setUserNick] = useState('');
     const [userPwh, setUserPwh] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userFullEmail, setUserFullEmail] = useState('');
 
     // 확인
     const [idValid, setIdValid] = useState('1');
@@ -40,6 +42,14 @@ const Sign = () => {
      const nickChangeHandler = (e) => {
         setUserNick(String(e.target.value).replace(/ /g, ""));
      }
+    
+    const emailChangeHandler = (e) => {
+        setUserEmail(String(e.target.value).replace(/ /g, ""));
+    }
+
+    const selectChangeHandler = (e) => {
+        setUserFullEmail(userEmail + "@" + e.target.value);
+    }
     
     //중복체크 클릭
     const idValidHandler = () => {
@@ -74,7 +84,8 @@ const Sign = () => {
                 const userData = {
                     username: userId,
                     userpw: userPw,
-                    usernick : userNick
+                    usernick: userNick,
+                    email: userFullEmail
                 }
                 axios({
                     url: "http://localhost:8080/sign",
@@ -89,7 +100,7 @@ const Sign = () => {
                 });
             }
             else {
-                alert("빈칸 없이 해주세요.");
+                alert("글자수를 맞춰주세요");
             }
         } else {
             alert('다 채워주세요.')
@@ -129,7 +140,21 @@ const Sign = () => {
                 <div className={classes.inputbox}>
                 <input type="text" id="nick" onChange={nickChangeHandler} value={userNick} minLength="1" placeholder="닉네임은 변경가능합니다." />
                 </div>
+            </div>
+            <div className={classes.box}>
+                <label htmlFor="email">이메일</label>
+                <div className={classes.emailbox}>
+                    <input type="text" id="email" value={userEmail} onChange={emailChangeHandler} minLength="3" />
+                    @
+                    <select onChange={selectChangeHandler}>
+                        <option hidden>===</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="avatye.com">avatye.com</option>
+                        <option value="nate.com">nate.com</option>
+                        <option value="gmail.com">gmail.com</option>
+                    </select>
                 </div>
+            </div>
             <button type="submit" className={classes.subbtn}
             disabled={idValid === '2' && pwValid ? false : true}>등록</button>
         </form>

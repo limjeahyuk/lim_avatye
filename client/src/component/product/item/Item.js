@@ -8,6 +8,8 @@ const Item = ({name}) => {
     const [itemData, setItemData] = useState({});
     const [count, setCount] = useState(0);
     const [orderState, setOrderState] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
     const { id } = useParams();
 
     const sendRequest = async () => {
@@ -28,10 +30,23 @@ const Item = ({name}) => {
         setCount('');
     }
 
+    const userRequest = async () => {
+        const response = await axios.get(`http://localhost:8080/email/${name}`);
+        if (response.data[0].email === null) {
+            console.log("null");
+            setUserEmail('');
+            setEmailAddress('');
+        } else {
+            setUserEmail(response.data[0].email.split('@')[0]);
+            setEmailAddress(response.data[0].email.split('@')[1]);
+        }
+    }
+
     // 구매버튼 눌렀을 때
     const buySubmitHandler = (e) => {
         setOrderState(true)
         e.preventDefault();
+        userRequest();
     }
 
     const onChangeHandler = () => {
@@ -44,6 +59,8 @@ const Item = ({name}) => {
             proid={id}
             username={name}
             count={count}
+            pemail={userEmail}
+            pemailAddress={emailAddress}
         />}
         <div className={classes.header}>상세페이지</div>
     {itemData[0] &&

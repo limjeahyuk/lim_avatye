@@ -49,8 +49,8 @@ function App() {
           <Route path="/" element={<ShopMain userId={userId} />} />
           <Route path='/login' element={<Login isLoginCheck={ isLoginHandler} />} />
           <Route path='/sign' element={<Sign />} />
-          <Route path='/post' element={<Post name={userName} />} />
-          <Route path='/item/:id' element={<Item userId={userId} />} />
+          <Route path='/post' element={<Post userId={userId} />} />
+          <Route path='/item/:id' element={<Item name={userName} />} />
           <Route path='/mypage/:id' element={<MyPage userId={userId} isLoginCheck={isLoginHandler} />} />
           <Route path='/userupdate' element={<UserUpdate name={userName} userId={userId} />} />
         </Routes>

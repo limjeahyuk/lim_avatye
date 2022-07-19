@@ -133,6 +133,16 @@ app.get('/item/:id', (req, res) => {
         });
 });
 
+//username을 이용하여 email 조회
+app.get('/email/:name', (req, res) => {
+    const selectname = req.params.name;
+    connection.query(`SELECT * FROM user WHERE username = '${selectname}'`,
+        (error, rows) => {
+            if (error) throw error;
+            res.json(rows);
+        });
+});
+
 // login 확인
 app.post('/login', function (req, res) {
     const rb = req.body;
@@ -197,9 +207,11 @@ app.post('/sign', function (req, res) {
     const username = rb.username;
     const userpw = rb.userpw;
     const usernick = rb.usernick;
+    const email = rb.email;
 
     if (username && userpw && usernick) {
-        const query = `INSERT INTO user(username, userpw, usernick) VALUE('${username}','${userpw}','${usernick}')`;
+        const query = `INSERT INTO user(username, userpw, usernick, email) 
+        VALUE('${username}','${userpw}','${usernick}','${email}')`;
         connection.query(query, (err, row) => {
             if (err) throw err;
             return console.log("insert good");
