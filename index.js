@@ -319,6 +319,12 @@ app.put("/userpassword/:name", function (req, res) {
     res.json("good");
 })
 
+// 검색어를 이용하여 검색.
+// app.get("/search/:cont", function (req, res) {
+//     const searchcont = req.params.cont;
+//     const query = `select * from `
+// })
+
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'));

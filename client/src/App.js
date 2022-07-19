@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import MyPage from './component/user/MyPage';
 import UserUpdate from './component/user/UserUpdate';
+import ShopSearch from './component/shop_main/ShopSearch';
 
 
 
@@ -53,6 +54,7 @@ function App() {
           <Route path='/item/:id' element={<Item name={userName} />} />
           <Route path='/mypage/:id' element={<MyPage userId={userId} isLoginCheck={isLoginHandler} />} />
           <Route path='/userupdate' element={<UserUpdate name={userName} userId={userId} />} />
+          <Route path='/search/:cont' element={<ShopSearch />} />
         </Routes>
       </BrowserRouter>
 

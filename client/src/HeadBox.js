@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import classes from './HeadBox.module.css';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import SearchIcon from '@mui/icons-material/Search';
 
 const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
     const [userNick, setUserNick] = useState('');
+    const [searchCont, setSearchCont] = useState('');
     
     const navigagte = useNavigate()
 
@@ -25,6 +27,19 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
         navigagte('/');
     }
 
+    const onSearchHandler = (e) => {
+        setSearchCont(e.target.value);
+    }
+
+    const onSearchClear = () => {
+        setSearchCont('');
+    }
+
+    const onSearchSubmitHandelr = (e) => {
+        e.preventDefault();
+        navigagte(`/search/${searchCont}`);
+    }
+
     return (<div className={classes.headbox}>
         <div className={classes.intro}>
             {isLogin ? <div className={classes.logout}>
@@ -41,6 +56,18 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
         </div>
         <div className={classes.logo}>
             <Link to="/">Avatye Project</Link>
+        </div>
+        <div className={classes.search}>
+            <form onSubmit={onSearchSubmitHandelr}>
+                <input
+                    type="text"
+                    placeholder="검색어를 입력하세요"
+                    value={searchCont}
+                    onChange={onSearchHandler}
+                    onClick={onSearchClear}
+                />
+                <button><SearchIcon/></button>
+            </form>
         </div>
         <div className={classes.post}>
             {isLogin && 

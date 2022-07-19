@@ -1,6 +1,6 @@
 .headbox {
     margin-bottom: 30px;
-    height: 160px;
+    height: 200px;
     background-color: #F2F2F2;
     display: flex;
     flex-direction: column;
@@ -66,6 +66,47 @@
 .logo a{
     text-decoration: none;
         color: #010B40;
+}
+
+.search{
+    width: 500px;
+    margin: 15px auto;
+    background-color: #ffffff;
+    padding: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #94c6f2;
+}
+
+.search form{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 20px;
+}
+
+.search input{
+    border: none;
+    background-color: transparent;
+    width: 390px;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.search input:focus{
+    outline: none;
+}
+
+.search button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+}
+
+.search svg{
+    font-size: 26px;
 }
 
 .post{

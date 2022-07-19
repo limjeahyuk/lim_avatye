@@ -4,7 +4,12 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 
-export default function NativeSelectDemo() {
+export default function NativeSelectDemo({onCartegoryHandler}) {
+
+  const onChangeHandler = (e) => {
+    onCartegoryHandler(e.target.value);
+  }
+  
   return (
     <Box sx={{ minWidth: 150 }}>
       <FormControl fullWidth>
@@ -17,10 +22,13 @@ export default function NativeSelectDemo() {
             name: 'carta',
             id: 'uncontrolled-native',
           }}
+          onChange={onChangeHandler}
         >
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          <option value="all">전체</option>
+          <option value="아케이드">아케이드</option>
+          <option value="로그라이크">로그라이크</option>
+          <option value="RPG">RPG</option>
+          <option value="기타">기타</option>
         </NativeSelect>
       </FormControl>
     </Box>
