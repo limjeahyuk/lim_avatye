@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import classes from './Item.module.css';
 import OrderModal from "./OrderModal.js"
 
@@ -22,10 +22,8 @@ const Item = ({name}) => {
         sendRequest();
     }, []);
 
-    const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-
     const countHandler = (e) => {
-        setCount((e.target.value).replace(reg,""));
+        setCount(e.target.value);
     }
 
     const inputZeroHandler = () => {

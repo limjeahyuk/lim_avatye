@@ -20,24 +20,18 @@ const ShopMain = ({userId}) => {
         sendFullRequest();
     }, [cartegory]);
 
-    const filterProduct = data.filter(item => item.proca === cartegory);
+    const filterProduct = data.filter(item => item.proca === cartegory || item.proca2 === cartegory);
 
 
     return (<div className={classes.main}>
-        <NativeSelectDemo onCartegoryHandler={ onChangeCar} />
+        <NativeSelectDemo onCartegoryHandler={onChangeCar} />
         <div className={classes.conthead}>상품목록</div>
         <div className={classes.cont}>
         {(cartegory!=='all' ? filterProduct : data).map((item, index) => (
             <ShopProduct
                 bool={true}
                 key={index}
-                pdid={item.proid}
-                userid={item.userid}
-                img={item.proimg}
-                name={item.proname}
-                carte={item.proca}
-                price={item.price}
-                count={item.quantity}
+                cont ={item}
                 id={userId}
             />
         ))}

@@ -242,10 +242,11 @@ app.post("/post", function (req, res) {
     const price = rb.price;
     const proimg = rb.proimg;
     const proca = rb.proca;
+    const proca2 = rb.proca2;
     const quantity = rb.quantity;
 
-    const query = `INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, PROCA, QUANTITY) VALUE
-    ('${userid}','${proname}','${procont}','${price}','${proimg}','${proca}','${quantity}')`;
+    const query = `INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, PROCA, PROCA2, QUANTITY) VALUE
+    ('${userid}','${proname}','${procont}','${price}','${proimg}','${proca}','${proca2}','${quantity}')`;
     connection.query(query,
         (err, rows) => {
             if (err) throw err;
