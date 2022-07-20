@@ -320,10 +320,25 @@ app.put("/userpassword/:name", function (req, res) {
 })
 
 // 검색어를 이용하여 검색.
-// app.get("/search/:cont", function (req, res) {
-//     const searchcont = req.params.cont;
-//     const query = `select * from `
-// })
+app.get("/search/:cont", function (req, res) {
+    const searchcont = req.params.cont;
+    const query = `select * from user,product where user.userid = product.userid and procont like '%${searchcont}%'
+    UNION DISTINCT
+    select * from user,product where user.userid = product.userid and usernick like '%${searchcont}%'
+    UNION DISTINCT
+    select * from user,product where user.userid = product.userid and proca like '%${searchcont}%'
+    UNION DISTINCT
+    select * from user,product where user.userid = product.userid and product.proname like '%${searchcont}%'
+    `
+    connection.query(query, (err, rows) => {
+        if (err) throw err;
+        if (rows.length > 0) {
+            res.json(rows);
+        } else {
+            res.send("검색결과가 없습니다")
+        }
+    })
+})
 
 
 app.listen(app.get('port'), () => {
