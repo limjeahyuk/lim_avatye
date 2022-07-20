@@ -11,14 +11,14 @@ const ModalCulture = ({onCashInfo}) => {
 
     const onFirstHandler = (e) => {
         if (e.target.value.length < 5) {     
-        setFirstNum(String(e.target.value).replace(/ /g, ""));
+        setFirstNum(String(e.target.value).replace(/[^0-9]/g, ""));
         }
         setFourNum('')
     }
 
     const onTwoHandler = (e) => {
         if (e.target.value.length < 5) {
-           setTwoNum(String(e.target.value).replace(/ /g, "")); 
+           setTwoNum(String(e.target.value).replace(/[^0-9]/g, "")); 
         }
         
         setFourNum('');
@@ -26,15 +26,15 @@ const ModalCulture = ({onCashInfo}) => {
 
     const onThreeHandler = (e) => {
         if (e.target.value.length < 5) {
-            setThreeNum(String(e.target.value).replace(/ /g, ""));
+            setThreeNum(String(e.target.value).replace(/[^0-9]/g, ""));
         }
         
         setFourNum('');
     }
 
     const onFourHandler = (e) => {
-        if (e.target.value.length < 5) {
-            setFourNum(String(e.target.value).replace(/ /g, ""));
+        if (e.target.value.length < 7) {
+            setFourNum(String(e.target.value).replace(/[^0-9]/g, ""));
             setCashData({
                 number: firstNum+twoNum+threeNum+e.target.value
             })
@@ -42,13 +42,13 @@ const ModalCulture = ({onCashInfo}) => {
         onCashInfo(cashData);  
     }
 
-    return <div>    
+    return <div className="modalculture">    
                     <label htmlFor="num">문화상품권 번호</label>
-                    <div>
-            <input id="num" type="number" value={firstNum} onChange={onFirstHandler} maxLength='4' />
-                        <input type="number" className="pw" value={twoNum} onChange={onTwoHandler} pattern=".{4,4}" required title="4글자"  />
-                        <input type="number" value={threeNum} onChange={onThreeHandler} pattern=".{4,4}" required title="4글자"/>
-                        <input type="number" className="pw" value={fourNum} onChange={onFourHandler} pattern=".{4,4}" required title="4글자" />
+                    <div className="culturebox">
+            <input id="num" type="text" value={firstNum} onChange={onFirstHandler} minLength="4" />
+                        <input type="text" className="pw" value={twoNum} onChange={onTwoHandler} minLength="4"  />
+                        <input type="text" value={threeNum} onChange={onThreeHandler} minLength="4" />
+                        <input type="text" className="pw" value={fourNum} onChange={onFourHandler} minLength="6"  />
                     </div>
             </div>
 }

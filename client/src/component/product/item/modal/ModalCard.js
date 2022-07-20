@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import './Modal.css';
 
 const ModalCard = ({ onCashInfo }) => {
     
     const [cashData, setCashData] = useState({});
+
+    const [cardNum, setCardNum] = useState('');
+    const [codeYear, setCodeYear] = useState('');
+    const [codeCvg, setCodeCvg] = useState('');
 
     const onBankHandler = (e) => {
         setCashData({
@@ -13,11 +18,14 @@ const ModalCard = ({ onCashInfo }) => {
     }
 
     const cardNumHandler = (e) => {
+        if (e.target.value.length < 13) {
+            setCardNum(String(e.target.value).replace(/[^0-9]/g, ""));
         setCashData({
             ...cashData,
             cardnum: e.target.value
         })
         onCashInfo(cashData);
+        }  
     }
     
     const onCodeHandler = (e) => {
@@ -29,22 +37,30 @@ const ModalCard = ({ onCashInfo }) => {
     }
 
     const onYearHandler = (e) => {
+        if (e.target.value.length < 3) {
+            setCodeYear(String(e.target.value).replace(/[^0-9]/g, ""));
         setCashData({
             ...cashData,
             year: e.target.value
         })
         onCashInfo(cashData);
+        }
+        
     }
 
     const onCvgHandler = (e) => {
+        if (e.target.value.length < 4) {
+        setCodeCvg(String(e.target.value).replace(/[^0-9]/g, ""));
         setCashData({
             ...cashData,
             cvg: e.target.value
         })
-        onCashInfo(cashData);  
+        onCashInfo(cashData);     
+        }
+         
     }
-    return <div>
-                <div>
+    return <div className="modalcard">
+                <div className="bank">
                     <label htmlFor="bank">은행</label>
                     <select id="bank" onChange={onBankHandler}>
                         <option value="none" hidden>==</option>
@@ -55,15 +71,22 @@ const ModalCard = ({ onCashInfo }) => {
                         <option value="하나">하나은행</option>
                     </select>
                 </div>
-                <div>
+                <div className="cardnum">
                     <label htmlFor="cardnum">카드번호</label>
-                    <input id="cardnum" type="text" onChange={cardNumHandler} />
+            <input
+                id="cardnum"
+                type="text"
+                onChange={cardNumHandler}
+                value={cardNum}
+                placeholder="숫자만 작성부탁!"
+                minLength="12"
+            />
                 </div>
-                <div>
+                <div className="code">
                     <label htmlFor="code">유효기간 및 보안 코드</label>
-                    <div>
+                    <div className="codebox">
                         <select id="code" onChange={onCodeHandler}>
-                            <option value="none" hidden>==</option>
+                            <option value="" hidden>==</option>
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -77,8 +100,8 @@ const ModalCard = ({ onCashInfo }) => {
                             <option value="11">11</option>
                             <option value="12">12</option>
                         </select>
-                        <input type="number" onChange={onYearHandler} />
-                        <input type="number" onChange={onCvgHandler} /><p>cvg</p>
+                        <input type="text" onChange={onYearHandler} className="year" minLength="2" value={codeYear} />
+                        <input type="text" onChange={onCvgHandler} className="cvg" minLength="3" value={codeCvg} /><p>cvg</p>
                     </div>
                 </div> 
             </div>

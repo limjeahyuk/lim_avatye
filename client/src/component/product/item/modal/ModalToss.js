@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './Modal.css';
 
 const ModalToss = ({ onCashInfo }) => {
 
@@ -10,21 +11,19 @@ const ModalToss = ({ onCashInfo }) => {
 
     const onFirstHandler = (e) => {
         if (e.target.value.length < 4) {
-            setFirstNum(e.target.value);
+            setFirstNum(String(e.target.value).replace(/[^0-9]/g, ""));
         }
-        setThreeNum('');
     }
 
     const onTwoHandler = (e) => {
         if (e.target.value.length < 5) {
-            setTwoNum(e.target.value);
+            setTwoNum(String(e.target.value).replace(/[^0-9]/g, ""));
         }
-        setThreeNum('');
     }
 
     const onThreeHandler = (e) => {
         if (e.target.value.length < 5) {
-            setThreeNum(e.target.value);
+            setThreeNum(String(e.target.value).replace(/[^0-9]/g, ""));
             setCashData({
                 phone: firstNum + "-" + twoNum + "-" + threeNum
             })
@@ -34,15 +33,15 @@ const ModalToss = ({ onCashInfo }) => {
     
 
 
-    return <div>
+    return <div className="modaltoss">
                 
                     <label htmlFor="phone">휴대폰번호</label>
                     <div>
-                        <input id="phone" type="number" value={firstNum} onChange={onFirstHandler} />
+                        <input id="phone" type="text" value={firstNum} onChange={onFirstHandler} minLength="3" />
                         -
-                        <input type="number" value={twoNum} onChange={onTwoHandler} />
+                        <input type="text" value={twoNum} onChange={onTwoHandler} minLength="4" />
                         -
-                        <input type="number" value={threeNum} onChange={onThreeHandler} />
+                        <input type="text" value={threeNum} onChange={onThreeHandler} minLength="4" />
                     </div>
                 
             </div>

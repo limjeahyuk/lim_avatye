@@ -22,8 +22,10 @@ const Item = ({name}) => {
         sendRequest();
     }, []);
 
+    const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+
     const countHandler = (e) => {
-        setCount(e.target.value);
+        setCount((e.target.value).replace(reg,""));
     }
 
     const inputZeroHandler = () => {
@@ -44,9 +46,14 @@ const Item = ({name}) => {
 
     // 구매버튼 눌렀을 때
     const buySubmitHandler = (e) => {
-        setOrderState(true)
         e.preventDefault();
-        userRequest();
+        if (count === null || count < 1) {
+            console.log('dd');
+        } else {
+               setOrderState(true)
+        userRequest();    
+        }
+ 
     }
 
     const onChangeHandler = () => {
