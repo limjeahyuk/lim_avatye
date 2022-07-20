@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classes from './Post.module.css';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -14,6 +14,7 @@ const Post = ({userId}) => {
     const [postFile, setPostFile] = useState('');
     const [postPreview, setPostPreview] = useState('');
     const [postCar, setPostCar] = useState('아케이드');
+    const [postCar2, setPostCar2] = useState('');
     const [quantity, setQuantity] = useState(0);
 
     
@@ -23,7 +24,8 @@ const Post = ({userId}) => {
     const nameHandler = (e) => {setPostName(e.target.value);}
     const contHandler = (e) => {setPostCont(e.target.value);}
     const priceHandler = (e) => {setPostPrice(e.target.value);}
-    const selectChangeHandler = (e) => {setPostCar(e.target.value);}
+    const selectChangeHandler = (e) => { setPostCar(e.target.value); }
+    const onCartegorytwoHandler = (e) => {setPostCar2(e.target.value);}
     const quantityHandler = (e) => {setQuantity(e.target.value);}
     const priceZeroHandler = () => { setPostPrice(''); }
     const quantityZeroHandler = () => { setQuantity(''); }
@@ -95,6 +97,7 @@ const Post = ({userId}) => {
             price: postPrice,
             proimg: postFile,
             proca: postCar,
+            proca2: postCar2,
             quantity: quantity
         };
 
@@ -150,17 +153,31 @@ const Post = ({userId}) => {
                         />
                         </div>
                 </div>
-                <div>
+                <div className={classes.cartegory}>
+                <div className={classes.firstcar}>
                     <label>카테고리</label>
                     <div className={classes.car}>
-                    <select onChange={selectChangeHandler} value={postCar}>
-                        <option>아케이드</option>
-                        <option>RPG</option>
-                        <option>로그라이크</option>
-                        <option>기타</option>
-                        </select>
+                            <select onChange={selectChangeHandler} value={postCar}>
+                                <option value="아케이드">아케이드</option>
+                                <option value="RPG">RPG</option>
+                                <option value="로그라이크">로그라이크</option>
+                                <option value="기타">기타</option>
+                            </select>
                         </div>
                 </div>
+                <div className={classes.twocar}>
+                    <label>카테고리2</label>
+                    <div className={classes.car}>
+                            <select onChange={onCartegorytwoHandler} value={postCar2}>
+                                <option value="none">none</option>
+                        <option value="아케이드">아케이드</option>
+                        <option value="RPG">RPG</option>
+                        <option value="로그라이크">로그라이크</option>
+                        <option value="기타">기타</option>
+                        </select>
+                        </div>
+                    </div>
+                    </div>
                 <div>
                     <label>수량</label>
                     <div className={classes.count}>
@@ -186,7 +203,6 @@ const Post = ({userId}) => {
                         onChange={priceHandler}
                         onClick={priceZeroHandler}    
                     />
-                        
                         <AddIcon  onClick={onPriceAdd} />
                         </div>
                 </div>

@@ -35,12 +35,11 @@ const MyPage = ({userId, isLoginCheck}) => {
     useEffect(() => {  
         sendRequest();
         proRequest();
+        if ("" + userId !== "" + id) {
+            navigagte('/');
+        }
     },[]);
 
-
-    if ("" + userId !== "" + id) {
-        navigagte('/');
-    }
     return (
         <div className={classes.cont}>
             {userNick &&
@@ -50,19 +49,11 @@ const MyPage = ({userId, isLoginCheck}) => {
                     </div>
                      <div className={classes.buyhead}>구매 내역</div>
                     <div className={classes.list}>
-                        {userData.map((item) => (
+                        {userData.map((item,index) => (
                                 <ShopProduct
                                     bool={false}
-                                    pdid={item.proid}
-                                    userid={item.userid}
-                                    key={item.orderid}
-                                    img={item.proimg}
-                                    name={item.proname}
-                                    price={item.price * item.count}
-                                    carte={item.proca}
-                                    count={item.quantity}
-                                    buycount={item.count}
-                                    date={item.orderdate}
+                                    key={index}
+                                    cont={item}
                                     id={userId}
                                 />
                         ))}
@@ -75,16 +66,10 @@ const MyPage = ({userId, isLoginCheck}) => {
                         <h1 style={{display:'none'}}>{userProId}</h1>
                         <div className={classes.sellhead}>등록한 상품</div>
                         <div className={classes.list}>
-                            {userPro.map((item) => (   
+                            {userPro.map((item,index) => (   
                                 <ShopProduct
-                                    key={item.pdid}
-                                    pdid={item.proid}
-                                    userid={item.userid}
-                                    name={item.proname}
-                                    img={item.proimg}
-                                    price={item.price}
-                                    count={item.quantity}
-                                    carte={item.proca}
+                                    key={index}
+                                    cont={item}
                                     id={userId}
                                     bool={true}
                                 />    

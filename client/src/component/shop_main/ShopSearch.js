@@ -32,13 +32,7 @@ const ShopSearch = ({userId}) => {
                 <ShopProduct
                 bool={true}
                 key={index}
-                pdid={item.proid}
-                userid={item.userid}
-                img={item.proimg}
-                name={item.proname}
-                carte={item.proca}
-                price={item.price}
-                count={item.quantity}
+                cont={item}
                 id={userId}
             />
             ))}

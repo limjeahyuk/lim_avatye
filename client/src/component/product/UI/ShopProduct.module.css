@@ -48,18 +48,24 @@
 
 .into .tag{
     display: flex;
+    height: 37px;
 }
 
-
-.into .car, .into .no, .into .my{
-    margin: 10px 10px 10px 0;
-    padding: 3px;
+.into .none, .into .no, .into .my{
+    margin:10px 10px 0 0;
+    padding: 3px 5px;
     border-radius: 7px;
     font-size: 15px;
 }
+.cartegory{
+    display: flex;
+}
 
-.into .tag .car{
-    background-color: #F2EEAC;
+.cartegory .car{
+    background-color: transparent;
+    color: rgb(100, 100, 100);
+    font-size: 12px;
+    margin:0 5px;
 }
 
 .into .tag .no{

@@ -19,7 +19,8 @@ const ModalCont = ({ cashtype, onCashInfo }) => {
         case '문화상품권':
             return <ModalCulture onCashInfo={onCashData}/>
         case 'Toss':
-            return <ModalToss onCashInfo={onCashData}/>
+            return <ModalToss onCashInfo={onCashData} />
+        //no default
     }
 }
 

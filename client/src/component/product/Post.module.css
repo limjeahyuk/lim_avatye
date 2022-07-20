@@ -132,3 +132,12 @@
 .cont form button:hover{
     color: #94C6F2 ;
 }
+
+.cont .cartegory{
+    display: flex;
+    flex-direction: row;
+}
+
+.cont .firstcar{
+    margin-right: 20px;
+}
