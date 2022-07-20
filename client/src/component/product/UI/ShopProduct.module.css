@@ -48,11 +48,11 @@
 
 .into .tag{
     display: flex;
-    height: 27px;
+    height: 37px;
 }
 
 .into .none, .into .no, .into .my{
-    margin-right: 10px;
+    margin:10px 10px 0 0;
     padding: 3px 5px;
     border-radius: 7px;
     font-size: 15px;

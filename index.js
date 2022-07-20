@@ -330,6 +330,8 @@ app.get("/search/:cont", function (req, res) {
     select * from user,product where user.userid = product.userid and proca like '%${searchcont}%'
     UNION DISTINCT
     select * from user,product where user.userid = product.userid and product.proname like '%${searchcont}%'
+    UNION DISTINCT
+    select * from user,product where user.userid = product.userid and proca2 like '%${searchcont}%'
     `
     connection.query(query, (err, rows) => {
         if (err) throw err;
