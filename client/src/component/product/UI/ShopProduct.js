@@ -34,7 +34,6 @@ const ShopProduct = ({bool, pdid, img, id, name ,userid, carte, count, date, pri
                             <div className={classes.price}>{date}</div>
                             </div>
                     }
-                    
                     </div>
             </div>
         </div>

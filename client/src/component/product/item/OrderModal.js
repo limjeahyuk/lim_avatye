@@ -77,7 +77,7 @@ const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress }) => 
             </header>
             <form onSubmit={cashSubmitHandler}>
                 <div className={classes.content}>
-                    
+                    <div  className={classes.cashtype}>
                     <label>결제수단</label>
                     <select onChange={onCashHandler}>
                         <option value="none" hidden>===선택===</option>
@@ -85,13 +85,18 @@ const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress }) => 
                         <option value="카카오페이">카카오페이</option>
                         <option value="Toss">Toss</option>
                         <option value="문화상품권">문화상품권</option>
-                    </select>
+                        </select>
+                        </div>
                     {cashApper && <>
-                        <h3>결제정보</h3>
+                        <div className={classes.info}>
+                            <h3>결제정보</h3>
+                            <p>- 전부 채워주세요 -</p>
+                            </div>
                         <ModalCont cashtype={cashOption} onCashInfo={cashInfoHandler} />
-                        <div>
-                    <label>이메일</label>
-                            <input type="text" value={email} onChange={onEmailHandler} onClick={onClearEmail} />
+                        <div className={classes.email}>
+                            <label>이메일</label>
+                            <div className={classes.emailbox}>
+                            <input type="text" value={email} onChange={onEmailHandler} onClick={onClearEmail} minLength="6" />
                     @
                     <select onChange={onEmailAddress} value={emailAddress}>
                         <option value="" hidden > ===</option>
@@ -100,12 +105,13 @@ const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress }) => 
                         <option value="gmail.com">gmail.com</option>
                         <option value="avatye.com">avatye.com</option>
                     </select>
+                                </div>
                 </div>
                     </>}
                     
                 </div>
                 <footer className={classes.actions}>
-                    <button type="submit">Okay</button>
+                    <button disabled={cashApper ? false : true} type="submit">Okay</button>
                 </footer>
                 </form>
             </div>

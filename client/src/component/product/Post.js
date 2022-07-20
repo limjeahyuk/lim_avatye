@@ -30,15 +30,22 @@ const Post = ({userId}) => {
 
 
     //icon 클릭시 숫자 변경
-    const onCountAdd = () => {setQuantity(pre => pre + 1);}
+    const onCountAdd = () => {setQuantity(pre => Number(pre) + 1);}
     const onCountDown = () => {
         if (quantity === 0) {
             setQuantity(0)
         }else{setQuantity(pre => pre - 1);}
         
     }
-    const onPriceAdd = () => {setPostPrice(pre => pre + 1000);}
-    const onPriceDown = () => {setPostPrice(pre => pre - 1000);}
+    const onPriceAdd = () => {setPostPrice(pre => Number(pre) + 1000);}
+    const onPriceDown = () => {
+        if (postPrice < 1000) {
+            setPostPrice(0)
+        } else {
+            
+        setPostPrice(pre => Number(pre) - 1000);
+        }
+    }
 
     //이미지 미리보기
     const encodeFileToBase64 = (fileBlob) => {
@@ -171,7 +178,7 @@ const Post = ({userId}) => {
                 <div>
                     <label>가격</label>
                     <div className={classes.price}>
-                        <RemoveIcon onClick={onPriceAdd} />
+                        <RemoveIcon onClick={onPriceDown} />
                     <input
                         type="number"
                         min="0"
@@ -180,7 +187,7 @@ const Post = ({userId}) => {
                         onClick={priceZeroHandler}    
                     />
                         
-                        <AddIcon onClick={onPriceDown} />
+                        <AddIcon  onClick={onPriceAdd} />
                         </div>
                 </div>
                 <button type="submit" >등록</button>

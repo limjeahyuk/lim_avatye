@@ -3,6 +3,7 @@ import ModalCard from "./ModalCard";
 import ModalCulture from "./ModalCulture";
 import ModalKakao from "./ModalKakao";
 import ModalToss from "./ModalToss";
+import './Modal.css';
 
 const ModalCont = ({ cashtype, onCashInfo }) => {
     
