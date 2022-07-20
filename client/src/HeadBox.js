@@ -28,7 +28,7 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
     }
 
     const onSearchHandler = (e) => {
-        setSearchCont(e.target.value);
+        setSearchCont(String(e.target.value).replace(/\//g,""));
     }
 
     const onSearchClear = () => {
@@ -38,6 +38,7 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
     const onSearchSubmitHandelr = (e) => {
         e.preventDefault();
         navigagte(`/search/${searchCont}`);
+        
     }
 
     return (<div className={classes.headbox}>
