@@ -18,34 +18,80 @@ const Post = ({userId}) => {
     const [quantity, setQuantity] = useState(0);
 
     
+    const [nameVal, setNameVal] = useState(false);
+    const [contVal, setContVal] = useState(false);
+    const [priceVal, setPriceVal] = useState(false);
+    const [quantityVal, setQuantityVal] = useState(false);
+
+    
     const navigate = useNavigate();
 
     // input 상태 관리
-    const nameHandler = (e) => {setPostName(e.target.value);}
-    const contHandler = (e) => {setPostCont(e.target.value);}
-    const priceHandler = (e) => {setPostPrice(e.target.value);}
-    const selectChangeHandler = (e) => { setPostCar(e.target.value); }
+    const nameHandler = (e) => {
+        setPostName(e.target.value);
+        if (e.target.value.length > 3) {
+            setNameVal(true);
+        } else {
+            setNameVal(false);
+        }
+    }
+    const contHandler = (e) => {
+        setPostCont(e.target.value);
+        if (e.target.value.length > 5) {
+            setContVal(true);
+        } else {
+            setContVal(false);
+        }
+    }
+    const priceHandler = (e) => {
+        setPostPrice(String(e.target.value).replace(/[^0-9]/g, ""));
+        if (Number(e.target.value) > 0) {
+            setPriceVal(true);
+        } else {
+            setPriceVal(false);
+        }
+    }
+    const selectChangeHandler = (e) => {
+        setPostCar(e.target.value);
+    }
     const onCartegorytwoHandler = (e) => {setPostCar2(e.target.value);}
-    const quantityHandler = (e) => {setQuantity(e.target.value);}
+    const quantityHandler = (e) => {
+        setQuantity(String(e.target.value).replace(/[^0-9]/g, ""));
+        if (Number(e.target.value) > 0) {
+            setQuantityVal(true);
+        } else {
+            setQuantityVal(false);
+        }
+    }
     const priceZeroHandler = () => { setPostPrice(''); }
     const quantityZeroHandler = () => { setQuantity(''); }
 
 
     //icon 클릭시 숫자 변경
-    const onCountAdd = () => {setQuantity(pre => Number(pre) + 1);}
+    const onCountAdd = () => {
+        setQuantity(pre => Number(pre) + 1);
+        setQuantityVal(true);
+    }
     const onCountDown = () => {
         if (quantity === 0) {
             setQuantity(0)
-        }else{setQuantity(pre => pre - 1);}
+        } else { setQuantity(pre => pre - 1); }
+
+        if (quantity <= 1) {
+            setQuantityVal(false);
+        }
         
     }
-    const onPriceAdd = () => {setPostPrice(pre => Number(pre) + 1000);}
+    const onPriceAdd = () => {
+        setPostPrice(pre => Number(pre) + 1000);
+        setPriceVal(true);
+    }
     const onPriceDown = () => {
         if (postPrice < 1000) {
             setPostPrice(0)
+            setPriceVal(false);
         } else {
-            
-        setPostPrice(pre => Number(pre) - 1000);
+            setPostPrice(pre => Number(pre) - 1000);
         }
     }
 
@@ -89,7 +135,7 @@ const Post = ({userId}) => {
     // 폼 전체 서버로 저장.
     const submitClickHandler = (e) => {
         e.preventDefault();
-        
+
         const postData = {
             userid: userId,
             proname: postName,
@@ -101,7 +147,8 @@ const Post = ({userId}) => {
             quantity: quantity
         };
 
-        axios({
+        if (nameVal && priceVal && contVal && quantityVal) {
+              axios({
             url: "http://localhost:8080/post",
             method: 'post',
             data: postData
@@ -111,6 +158,8 @@ const Post = ({userId}) => {
         }).catch(function (error) {
             console.log(error);
         })
+        }
+      
 
     };
 
@@ -120,13 +169,17 @@ const Post = ({userId}) => {
             <div className={classes.postname}>상품등록</div>
             <form onSubmit={submitClickHandler}>
                 <div>
-                    <label htmlFor="name">이름</label>
+                    <div className={classes.head}>
+                        <label htmlFor="name">이름</label>
+                        {!nameVal ? <p>3글자 이상 채워주세요</p> : <p className={classes.good}>굳!</p> }
+                        </div>
                     <div className={classes.box}>
                     <input
                         id="name"
                         type="text"
                         value={postName}
-                        onChange={nameHandler}
+                            onChange={nameHandler}
+                            minLength="3"
                         />
                         </div>
                 </div>
@@ -144,12 +197,18 @@ const Post = ({userId}) => {
                     {postPreview && <img src={postPreview} alt="preview" />}
                 </div>
                 <div>
-                    <label>내용</label>
+                    <div className={classes.head}>
+                        <label>내용</label>
+                        {!contVal ? <p>7글자 이상 채워주세요</p> : <p className={classes.good}>굳!</p> }
+                    </div>
+                    
                     <div className={classes.box}>
                     <input
                         type="text"
                         value={postCont}
-                        onChange={contHandler}
+                            onChange={contHandler}
+                            placeholder="게임에 대한 내용 적어주세요."
+                            minLength="5"
                         />
                         </div>
                 </div>
@@ -164,6 +223,7 @@ const Post = ({userId}) => {
                                 <option value="기타">기타</option>
                             </select>
                         </div>
+                        
                 </div>
                 <div className={classes.twocar}>
                     <label>카테고리2</label>
@@ -179,12 +239,14 @@ const Post = ({userId}) => {
                     </div>
                     </div>
                 <div>
+                    <div className={classes.head}>
                     <label>수량</label>
+                    {!quantityVal ? <p>0개 이상!</p> : <p className={classes.good}>굳!</p>}
+                        </div>
                     <div className={classes.count}>
                         <KeyboardArrowLeftIcon onClick={onCountDown} />
                     <input
                         type="number"
-                        min="0"
                         value={quantity}
                             onChange={quantityHandler}
                             onClick={quantityZeroHandler}
@@ -193,12 +255,14 @@ const Post = ({userId}) => {
                         </div>
                 </div>
                 <div>
+                    <div className={classes.head}>
                     <label>가격</label>
+                    {!priceVal ? <p>0원 이상!</p> : <p className={classes.good}>굳!</p>}
+                        </div>
                     <div className={classes.price}>
                         <RemoveIcon onClick={onPriceDown} />
                     <input
                         type="number"
-                        min="0"
                         value={postPrice}
                         onChange={priceHandler}
                         onClick={priceZeroHandler}    
