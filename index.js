@@ -92,15 +92,7 @@ app.get('/', (req, res) => {
     })
 })
 
-// username를 이용한 user 조회
-app.get('/user/:name', (req, res) => {
-    const selectname = (req.params.name);
-    connection.query(`SELECT * FROM user WHERE username = "${selectname}"`,
-        (error, rows) => {
-            if (error) throw error;
-            res.json(rows);
-        });
-})
+
 
 // userid를 이용한 구매한 내역 user , product , order 조회
 app.get('/mypage/:id', (req, res) => {
@@ -133,15 +125,16 @@ app.get('/item/:id', (req, res) => {
         });
 });
 
-//username을 이용하여 email 조회
-app.get('/email/:name', (req, res) => {
-    const selectname = req.params.name;
-    connection.query(`SELECT * FROM user WHERE username = '${selectname}'`,
+// username를 이용한 user 조회
+app.get('/user/:name', (req, res) => {
+    const selectname = (req.params.name);
+    connection.query(`SELECT * FROM user WHERE username = "${selectname}"`,
         (error, rows) => {
             if (error) throw error;
             res.json(rows);
         });
-});
+})
+
 
 // login 확인
 app.post('/login', function (req, res) {
@@ -293,13 +286,15 @@ app.post('/buy', function (req, res) {
     })
 })
 
-
 // username을 이용하여 user 테이블 정보 변경
-app.put("/usernick/:name", function (req, res) {
+app.put("/update/:name", function (req, res) {
     const usernick = req.body.usernick;
+    const userpw = req.body.userpw;
+    const email = req.body.email;
 
     const updatename = req.params.name;
-    const query = `UPDATE user SET usernick='${usernick}' WHERE username = '${updatename}'`
+    const query = `UPDATE user SET usernick='${usernick}', userpw='${userpw}',email='${email}'
+     WHERE username = '${updatename}'`
     connection.query(query, (err, rows) => {
         if (err) throw err;
         return console.log("update success");
@@ -307,18 +302,6 @@ app.put("/usernick/:name", function (req, res) {
     res.json("good");
 })
 
-// username을 이용하여 user password 정보변경
-app.put("/userpassword/:name", function (req, res) {
-    const userpw = req.body.userpassword;
-
-    const updatename = req.params.name;
-    const query = `UPDATE user SET userpw=${userpw} WHERE username = '${updatename}'`
-    connection.query(query, (err, rows) => {
-        if (err) throw err;
-        return console.log("update success");
-    });
-    res.json("good");
-})
 
 // 검색어를 이용하여 검색.
 app.get("/search/:cont", function (req, res) {

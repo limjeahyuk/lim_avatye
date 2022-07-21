@@ -31,7 +31,7 @@ const Item = ({name}) => {
     }
 
     const userRequest = async () => {
-        const response = await axios.get(`http://localhost:8080/email/${name}`);
+        const response = await axios.get(`http://localhost:8080/user/${name}`);
         if (response.data[0].email === null) {
             console.log("null");
             setUserEmail('');

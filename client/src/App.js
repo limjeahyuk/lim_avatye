@@ -53,7 +53,7 @@ function App() {
           <Route path='/post' element={<Post userId={userId} />} />
           <Route path='/item/:id' element={<Item name={userName} />} />
           <Route path='/mypage/:id' element={<MyPage userId={userId} isLoginCheck={isLoginHandler} />} />
-          <Route path='/userupdate' element={<UserUpdate name={userName} userId={userId} />} />
+          <Route path='/userupdate' element={<UserUpdate name={userName} userId={userId} isLoginCheck={isLoginHandler} />} />
           <Route path='/search/:cont' element={<ShopSearch userId={userId} />} />
           <Route path="/search" element={<ShopMain userId={userId} />} />
         </Routes>

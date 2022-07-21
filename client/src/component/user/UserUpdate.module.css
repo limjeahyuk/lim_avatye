@@ -1,0 +1,82 @@
+.cont{
+    width: 400px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    border: 1px solid #010B40;
+    border-radius: 20px;
+}
+
+.cont h1{
+    width: 111px;
+    margin: 20px auto;
+}
+
+
+.cont form{
+    display: flex;
+    flex-direction: column;
+}
+
+.cont form>div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.cont form>div label{
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.cont form>div input{
+    width: 200px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.cont form>div .pwd{
+    font-size: 14px;
+    margin-left: 10px;
+    color: red;
+}
+
+.cont form>div .good{
+    font-size: 14px;
+    margin-left: 10px;
+    color: #010B40;
+}
+
+.cont form .emailbox{
+    margin-bottom: 20px;
+}
+
+.cont form>div .email input{
+    width: 150px;
+    margin-right: 10px;
+}
+
+.cont form>div .email select{
+    margin-left: 10px;
+    font-size: 16px;
+    width: 120px;
+}
+
+.cont form button{
+    text-align: center;
+    width: 150px;
+    margin: 20px auto 0;
+    padding: 10px 0;
+    border-radius: 15px;
+    border: none;
+    background-color: transparent;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.cont form button:hover{
+    color: #94C6F2;
+}

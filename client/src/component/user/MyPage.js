@@ -76,8 +76,10 @@ const MyPage = ({userId, isLoginCheck}) => {
                             ))}
                         </div>
                     </div> 
-                    }
-                    <button onClick={userUpdateHandler}>정보수정</button>
+                }
+                <div className={classes.updatebtn}>
+                     <button onClick={userUpdateHandler} className={classes.update}>정보수정</button>
+                </div>
                     </div>
                     </div>
         )

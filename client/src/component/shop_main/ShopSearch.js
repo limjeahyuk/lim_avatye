@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ShopProduct from "../product/UI/ShopProduct";
+import classes from './ShopSearch.module.css'
 
 const ShopSearch = ({userId}) => {
     const [searchNull, setSearchNull] = useState(false);
@@ -25,10 +26,12 @@ const ShopSearch = ({userId}) => {
         sendFullRequest();
     },[cont])
 
-    return <div>
+    return <div className={classes.search}>
+        <h2>검색결과</h2>
+        <div>
         {!searchNull ?
-            <div>검색결과가 없습니다.</div> :
-            <div>{searchData.map((item, index) => (
+            <div className={classes.no}>검색결과가 없습니다.</div> :
+            <div className={classes.cont}>{searchData.map((item, index) => (
                 <ShopProduct
                 bool={true}
                 key={index}
@@ -36,9 +39,9 @@ const ShopSearch = ({userId}) => {
                 id={userId}
             />
             ))}
-                
-                </div>
-        }
+            </div>
+            }
+        </div>
 </div>
 }
 
