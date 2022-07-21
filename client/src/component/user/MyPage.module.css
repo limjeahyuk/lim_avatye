@@ -47,3 +47,26 @@
 .cont .sell .sellhead{
     margin-top: 60px;
 }
+
+.updatebtn{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.update{
+    font-size: 20px;
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #010B40;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.update:hover{
+    color: #94C6F2;
+}
