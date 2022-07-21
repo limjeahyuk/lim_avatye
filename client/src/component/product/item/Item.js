@@ -84,6 +84,7 @@ const Item = ({name}) => {
             count={count}
             pemail={userEmail}
             pemailAddress={emailAddress}
+            proname={itemData[0].proname}
         />}
         <div className={classes.header}>상세페이지</div>
     {itemData[0] &&

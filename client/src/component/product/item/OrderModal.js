@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ModalCont from "./modal/ModalCont";
 import classes from './OrderModal.module.css'
 
-const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress }) => {
+const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress, usernick, proname }) => {
     
     const navigate = useNavigate();
 
@@ -52,7 +52,9 @@ const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress }) => 
             orderdate: new Date().toISOString().slice(0, 10),
             type: cashOption,
             data: JSON.stringify(cashInfo),
-            email: emailFull
+            email: emailFull,
+            usernick: usernick,
+            proname: proname
         };
         
         axios({
@@ -66,6 +68,9 @@ const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress }) => 
             console.log(error);
         });
         }
+
+        
+
     }
 
 

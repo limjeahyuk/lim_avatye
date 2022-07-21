@@ -8,6 +8,9 @@ const mysql = require('mysql');
 const dbconfig = require('./database.js');
 const connection = mysql.createConnection(dbconfig);
 
+//email 불러오기
+const mailer = require('./mail');
+
 // 업로드용 미들웨어
 const cors = require('cors');
 const bodyparser = require('body-parser');
@@ -195,12 +198,7 @@ app.post('/valid', function (req, res) {
 
 //user 등록
 app.post('/sign', function (req, res) {
-    console.log('console : %j', req.body);
-    const rb = req.body;
-    const username = rb.username;
-    const userpw = rb.userpw;
-    const usernick = rb.usernick;
-    const email = rb.email;
+    const { username, userpw, usernick, email } = req.body;
 
     if (username && userpw && usernick) {
         const query = `INSERT INTO user(username, userpw, usernick, email) 
@@ -228,15 +226,7 @@ app.post("/img", upload.single('img'), async (req, res) => {
 // post > db 저장
 app.post("/post", function (req, res) {
     console.log('console : %j', req.body);
-    const rb = req.body;
-    const userid = rb.userid;
-    const proname = rb.proname;
-    const procont = rb.procont;
-    const price = rb.price;
-    const proimg = rb.proimg;
-    const proca = rb.proca;
-    const proca2 = rb.proca2;
-    const quantity = rb.quantity;
+    const { userid, proname, procont, price, proimg, proca, proca2, quantity } = req.body;
 
     const query = `INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, PROCA, PROCA2, QUANTITY) VALUE
     ('${userid}','${proname}','${procont}','${price}','${proimg}','${proca}','${proca2}','${quantity}')`;
@@ -250,12 +240,9 @@ app.post("/post", function (req, res) {
 
 // 제품 구매버튼 눌렀을 때 order 테이블에 저장. 후 product 테이블 수량 변경
 // 트랜잭션으로 한번에 해버림.
- function itemcount(req, res) {
+function itemcount(req, res) {
+    const { proid, username, count, orderdate } = req.body;
     const rb = req.body;
-    const proid = rb.proid;
-    const username = rb.username;
-    const count = rb.count;
-    const orderdate = rb.orderdate;
     const ordertype = rb.type;
     const orderinfo = rb.data;
     const orderemail = rb.email;
@@ -271,15 +258,31 @@ app.post("/post", function (req, res) {
     });
 }
 
+// 메일 보내기
+function email(req, res){
+    const { email, username, proname, count } = req.body;
+
+    let emailParam = {
+        toEmail: email,
+        subject: proname + "구매 내역입니다.",
+        text: `${username}님 안녕하세요!!
+        좋은 하루입니다. ${proname}을 구매해주셔서 정말 감사합니다.
+        ${username}님 께서는 ${proname} 을 총 ${count} 개 구매해주셨습니다.
+        `
+    };
+    mailer.sendGmail(emailParam);
+}
+
 // 주문클릭했을 시 수량 확인.
 app.post('/buy', function (req, res) {
-    const proid = req.body.proid;
-    const count = req.body.count;
+    const { proid, count } = req.body;
+
     const query = `select * from product where proid= ${proid}`
     connection.query(query, (err, rows) => {
         if (err) throw err;
         if (rows[0].quantity >= count) {
             itemcount(req, res);
+            email(req, res);
         } else {
             res.send('수량이 없습니다.')
         }
@@ -288,9 +291,7 @@ app.post('/buy', function (req, res) {
 
 // username을 이용하여 user 테이블 정보 변경
 app.put("/update/:name", function (req, res) {
-    const usernick = req.body.usernick;
-    const userpw = req.body.userpw;
-    const email = req.body.email;
+    const { usernick, userpw, email } = req.body;
 
     const updatename = req.params.name;
     const query = `UPDATE user SET usernick='${usernick}', userpw='${userpw}',email='${email}'
@@ -304,14 +305,7 @@ app.put("/update/:name", function (req, res) {
 
 // product 수정
 app.put('/proupdate/:id', function (req, res) {
-    const rb = req.body;
-    const proname = rb.proname;
-    const procont = rb.procont;
-    const price = rb.price;
-    const proimg = rb.proimg;
-    const proca = rb.proca;
-    const proca2 = rb.proca2;
-    const quantity = rb.quantity;
+    const { proname, procont, price, proimg, proca, proca2, quantity } = req.body;
 
     const updateid = req.params.id;
     const query = `UPDATE product 
