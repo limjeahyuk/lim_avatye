@@ -11,6 +11,7 @@ import jwt_decode from 'jwt-decode';
 import MyPage from './component/user/MyPage';
 import UserUpdate from './component/user/UserUpdate';
 import ShopSearch from './component/shop_main/ShopSearch';
+import ProductUpdate from './component/product/item/ProductUpdate';
 
 
 
@@ -56,6 +57,7 @@ function App() {
           <Route path='/userupdate' element={<UserUpdate name={userName} userId={userId} isLoginCheck={isLoginHandler} />} />
           <Route path='/search/:cont' element={<ShopSearch userId={userId} />} />
           <Route path="/search" element={<ShopMain userId={userId} />} />
+          <Route path="/proupdate/:id" element={<ProductUpdate  />} />
         </Routes>
       </BrowserRouter>
 

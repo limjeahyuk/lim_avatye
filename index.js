@@ -302,6 +302,28 @@ app.put("/update/:name", function (req, res) {
     res.json("good");
 })
 
+// product 수정
+app.put('/proupdate/:id', function (req, res) {
+    const rb = req.body;
+    const proname = rb.proname;
+    const procont = rb.procont;
+    const price = rb.price;
+    const proimg = rb.proimg;
+    const proca = rb.proca;
+    const proca2 = rb.proca2;
+    const quantity = rb.quantity;
+
+    const updateid = req.params.id;
+    const query = `UPDATE product 
+    SET proname='${proname}', procont = '${procont}', price='${price}', proimg='${proimg}', proca= '${proca}',
+    proca2= '${proca2}', quantity= '${quantity}' WHERE proid = '${updateid}'`
+    connection.query(query, (err, rows) => {
+        if (err) throw err;
+        return console.log("update success");
+    });
+    res.json("good");
+})
+
 
 // 검색어를 이용하여 검색.
 app.get("/search/:cont", function (req, res) {
@@ -325,6 +347,25 @@ app.get("/search/:cont", function (req, res) {
         }
     })
 })
+
+// 게시물 삭제
+
+app.delete("/delete/:id", function (req, res) {
+    const deleteid = parseInt(req.params.id);
+    const query = `start transaction;
+    DELETE FROM product WHERE proid = ${deleteid};
+    DELETE FROM \`order\` WHERE proid = ${deleteid};
+    commit;
+    `
+    connection.query(query,
+        (err, rows) => {
+            if (err) throw err;
+            return console.log("delect good");
+        });
+    res.json(deleteid + "삭제");
+})
+
+
 
 
 app.listen(app.get('port'), () => {

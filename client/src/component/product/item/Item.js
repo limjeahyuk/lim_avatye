@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import classes from './Item.module.css';
 import OrderModal from "./OrderModal.js"
 
@@ -11,6 +11,8 @@ const Item = ({name}) => {
     const [userEmail, setUserEmail] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
     const { id } = useParams();
+
+    const navigagte = useNavigate();
 
     const sendRequest = async () => {
         const response = await axios.get(`http://localhost:8080/item/${id}`);
@@ -58,6 +60,22 @@ const Item = ({name}) => {
         setOrderState(false);
     }
 
+    const updateHandler = () => {
+        navigagte(`/proupdate/${id}`);
+    }
+
+    const delectHandler = () => {
+        axios({
+            url: `http://localhost:8080/delete/${id}`,
+            method: 'delete'
+        }).then(function a(response) {
+            console.log(response);
+            navigagte('/');
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
     return <>
         {orderState && <OrderModal
             onConfirm={onChangeHandler}
@@ -72,6 +90,10 @@ const Item = ({name}) => {
             <div className={classes.item}>
                 <div className={classes.head}>
                     <h1>{itemData[0].proname}</h1>
+                    <div className={classes.cartegory}>
+                        <div>#{itemData[0].proca}</div>
+                        {itemData[0].proca2 && <div>#{itemData[0].proca2}</div>}
+                    </div>
                     <p>판매자 : {itemData[0].usernick}</p>
                 </div>
                 <div className={classes.imgbox}>
@@ -79,7 +101,6 @@ const Item = ({name}) => {
                 </div>
                 <div className={classes.cont}>
                     <div className={classes.tag}>
-                        <div className={classes.car}>{itemData[0].proca}</div>
                         {itemData[0].quantity === 0 && <div className={classes.no}>품절</div>}
                         {itemData[0].username === name && <div className={classes.my}>MY</div>}
                     </div>
@@ -102,6 +123,10 @@ const Item = ({name}) => {
                             </form> :
                             <div className={classes.alrt}>로그인 먼저 해주세요</div>}
                         {itemData[0].quantity === 0 && <div>품절입니다</div>}
+                        {itemData[0].username === name && <div className={classes.update}>
+                            <div onClick={updateHandler}>수정</div>
+                            <div onClick={delectHandler}>삭제</div>
+                        </div>}
                     </div>
                 </div>
         </div>}
