@@ -101,7 +101,7 @@ const ModalCard = ({ onCashInfo }) => {
                             <option value="12">12</option>
                         </select>
                         <input type="text" onChange={onYearHandler} className="year" minLength="2" value={codeYear} />
-                        <input type="text" onChange={onCvgHandler} className="cvg" minLength="3" value={codeCvg} /><p>cvg</p>
+                        <input type="text" onChange={onCvgHandler} className="cvg" minLength="3" value={codeCvg} /><p>cvc</p>
                     </div>
                 </div> 
             </div>

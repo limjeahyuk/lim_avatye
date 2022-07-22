@@ -118,6 +118,16 @@ app.get('/pro/:id', (req, res) => {
     })
 })
 
+// userid를 이용하여 user 조회
+app.get('/profile/:id', (req, res) => {
+    const selectid = parseInt(req.params.id);
+    connection.query(`SELECT * FROM user WHERE userid = ${selectid}`,
+        (error, rows) => {
+            if (error) throw error;
+            res.json(rows);
+    })
+})
+
 // 클릭시 item 조회
 app.get('/item/:id', (req, res) => {
     const selectid = parseInt(req.params.id);
@@ -284,6 +294,7 @@ app.post('/buy', function (req, res) {
         if (rows[0].quantity >= count) {
             itemcount(req, res);
             email(req, res);
+            //비동기로
         } else {
             res.send('수량이 없습니다.')
         }
@@ -311,7 +322,7 @@ app.put('/proupdate/:id', function (req, res) {
     const updateid = req.params.id;
     const query = `UPDATE product 
     SET proname='${proname}', procont = '${procont}', price='${price}', proimg='${proimg}', proca= '${proca}',
-    proca2= '${proca2}', quantity= '${quantity}' WHERE proid = '${updateid}'`
+    proca2= '${proca2}', quantity= '${quantity}', state = 1 WHERE proid = '${updateid}'`
     connection.query(query, (err, rows) => {
         if (err) throw err;
         return console.log("update success");
@@ -333,6 +344,8 @@ app.get("/search/:cont", function (req, res) {
     UNION DISTINCT
     select * from user,product where user.userid = product.userid and proca2 like '%${searchcont}%'
     `
+    // union 안쓰고 그냥 where만 사용해도 될듯
+
     connection.query(query, (err, rows) => {
         if (err) throw err;
         if (rows.length > 0) {
@@ -344,7 +357,6 @@ app.get("/search/:cont", function (req, res) {
 })
 
 // 게시물 삭제
-
 app.delete("/delete/:id", function (req, res) {
     const deleteid = parseInt(req.params.id);
     const query = `start transaction;
@@ -371,6 +383,20 @@ app.put("/stop/:id", function (req, res) {
             return console.log("state update sucess");
         });
     res.json(stateid + "판매중지");
+
+})
+
+// 게시물 판매시작으로 변경
+app.put("/start/:id", function (req, res) {
+    const stateid = parseInt(req.params.id);
+    const query = `UPDATE product SET state=1 WHERE proid = ${stateid};`
+
+    connection.query(query,
+        (err, rows) => {
+            if (err) throw err;
+            return console.log("state update sucess");
+        });
+    res.json(stateid + "판매시작");
 
 })
 

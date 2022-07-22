@@ -8,7 +8,7 @@ import Post from './component/product/Post';
 import Item from './component/product/item/Item';
 import { useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode';
-import MyPage from './component/user/MyPage';
+import MyPage from './component/user/mypage/MyPage';
 import UserUpdate from './component/user/UserUpdate';
 import ShopSearch from './component/shop_main/ShopSearch';
 import ProductUpdate from './component/product/item/ProductUpdate';
