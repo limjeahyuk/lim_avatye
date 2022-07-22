@@ -144,6 +144,7 @@ app.post('/login', function (req, res) {
     const rb = req.body;
     const username = rb.username;
     const userpassword = rb.password;
+    
     if (username && userpassword) {
         connection.query('SELECT * FROM user WHERE username = ? AND userpw = ?',
             [username, userpassword], (error, rows) => {
@@ -228,8 +229,8 @@ app.post("/post", function (req, res) {
     console.log('console : %j', req.body);
     const { userid, proname, procont, price, proimg, proca, proca2, quantity } = req.body;
 
-    const query = `INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, PROCA, PROCA2, QUANTITY) VALUE
-    ('${userid}','${proname}','${procont}','${price}','${proimg}','${proca}','${proca2}','${quantity}')`;
+    const query = `INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, PROCA, PROCA2, QUANTITY, STATE) VALUE
+    ('${userid}','${proname}','${procont}','${price}','${proimg}','${proca}','${proca2}','${quantity}','1')`;
     connection.query(query,
         (err, rows) => {
             if (err) throw err;
@@ -357,6 +358,20 @@ app.delete("/delete/:id", function (req, res) {
             return console.log("delect good");
         });
     res.json(deleteid + "삭제");
+})
+
+// 게시물 판매종료로 변경
+app.put("/stop/:id", function (req, res) {
+    const stateid = parseInt(req.params.id);
+    const query = `UPDATE product SET state=0 WHERE proid = ${stateid};`
+
+    connection.query(query,
+        (err, rows) => {
+            if (err) throw err;
+            return console.log("state update sucess");
+        });
+    res.json(stateid + "판매중지");
+
 })
 
 

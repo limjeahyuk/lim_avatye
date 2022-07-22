@@ -11,9 +11,25 @@
     box-shadow: 2px 2px 5px rgba(0, 0, 0, .15);
     transition: .5s;
 }
+.item.none{
+    opacity: .5;
+    box-shadow: none;
+    position: relative;
+}
 
 .item:hover{
     box-shadow: 5px 5px 5px rgba(0,0,0,.5);
+}
+.item.none:hover {
+    box-shadow: none
+}
+
+.item.none .stop{
+    position: absolute;
+    color: red;
+    width: 200px;
+    height: 300px;
+    top: 30px;
 }
 
 .item .name{

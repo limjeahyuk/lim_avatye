@@ -66,8 +66,8 @@ const Item = ({name}) => {
 
     const delectHandler = () => {
         axios({
-            url: `http://localhost:8080/delete/${id}`,
-            method: 'delete'
+            url: `http://localhost:8080/stop/${id}`,
+            method: 'put'
         }).then(function a(response) {
             console.log(response);
             navigagte('/');
