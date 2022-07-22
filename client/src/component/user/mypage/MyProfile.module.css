@@ -1,0 +1,46 @@
+.cont {
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+    margin: 20px auto;
+    padding: 30px;
+    border: 1px solid black;
+    border-radius: 15px;
+    justify-content: space-around;
+}
+
+.box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.icon svg{
+    font-size: 170px;
+}
+
+.info{
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.info div{
+    margin: 5px 0;
+}
+
+.update{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    width: 190px;
+}
+
+.update button{
+    padding: 7px 10px;
+    border: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 500;
+}

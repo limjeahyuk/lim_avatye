@@ -76,6 +76,18 @@ const Item = ({name}) => {
         });
     }
 
+    const startHandler = () => {
+        axios({
+            url: `http://localhost:8080/start/${id}`,
+            method: 'put'
+        }).then(function a(response) {
+            console.log(response);
+            navigagte('/');
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
     return <>
         {orderState && <OrderModal
             onConfirm={onChangeHandler}
@@ -104,6 +116,7 @@ const Item = ({name}) => {
                     <div className={classes.tag}>
                         {itemData[0].quantity === 0 && <div className={classes.no}>품절</div>}
                         {itemData[0].username === name && <div className={classes.my}>MY</div>}
+                        {itemData[0].state === 0 && <div className={classes.stop}>판매중지</div>}
                     </div>
                     <div className={classes.itemcont}>{itemData[0].procont}</div>
                     <div className={classes.info}>
@@ -126,7 +139,9 @@ const Item = ({name}) => {
                         {itemData[0].quantity === 0 && <div>품절입니다</div>}
                         {itemData[0].username === name && <div className={classes.update}>
                             <div onClick={updateHandler}>수정</div>
-                            <div onClick={delectHandler}>삭제</div>
+                            {itemData[0].state === 1 ?
+                                <div onClick={delectHandler}>삭제</div> :
+                                <div onClick={startHandler}>판매 시작</div>}
                         </div>}
                     </div>
                 </div>

@@ -81,6 +81,11 @@
     color: white;
 }
 
+.cont .tag .stop{
+    background-color: red;
+    color: white;
+}
+
 .cont .itemcont{
     font-size: 17px;
     width: 600px;

@@ -10,9 +10,10 @@ const ShopProduct = ({ bool, id, cont }) => {
     const navigate = useNavigate();
 
     const pdClickHandler = (proid, e) => {
-        if (state === 1) {
+        if (id === userid||state === 1) {
             navigate(`/item/${proid}`);   
         }
+        
         
     }
 
