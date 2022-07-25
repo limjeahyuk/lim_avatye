@@ -88,7 +88,9 @@ const util = {
 
 // 전체 조회
 app.get('/', (req, res) => {
-    connection.query('SELECT * FROM product', (error, rows) => {
+    connection.query(`select * from product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+    connect.cartegory_index = cartegory.cartegory_index
+group by product_id) as carte on product.proid = carte.product_id`, (error, rows) => {
         if (error) throw error;
         console.log(rows);
         res.json(rows);
@@ -100,8 +102,10 @@ app.get('/', (req, res) => {
 // userid를 이용한 구매한 내역 user , product , order 조회
 app.get('/mypage/:id', (req, res) => {
     const selectid = parseInt(req.params.id);
-    connection.query(`SELECT * FROM \`order\`, product, user 
-    WHERE \`order\`.proid = product.proid and \`order\`.username = user.username and user.userid = ${selectid}`,
+    connection.query(`select *, product.userid as "sellerid" from user join \`order\` join product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+    connect.cartegory_index = cartegory.cartegory_index
+group by product_id) as car on product.proid = car.product_id and user.username = \`order\`.username and \`order\`.proid = product.proid
+where user.userid = ${selectid}`,
         (error, rows) => {
             if (error) throw error;
             res.json(rows);
@@ -111,7 +115,10 @@ app.get('/mypage/:id', (req, res) => {
 // userid를 이용하여 판매 상품 내역 조회 user, product
 app.get('/pro/:id', (req, res) => {
     const selectid = parseInt(req.params.id);
-    connection.query(`SELECT * FROM user, product WHERE user.userid = product.userid and user.userid = ${selectid}`,
+    connection.query(`select * from user join product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+    connect.cartegory_index = cartegory.cartegory_index
+group by product_id) as car on product.proid = car.product_id and user.userid = product.userid
+where user.userid= ${selectid}`,
         (error, rows) => {
             if (error) throw error;
             res.json(rows);
@@ -128,10 +135,14 @@ app.get('/profile/:id', (req, res) => {
     })
 })
 
+
 // 클릭시 item 조회
 app.get('/item/:id', (req, res) => {
     const selectid = parseInt(req.params.id);
-    connection.query(`SELECT * FROM product, user WHERE product.userid = user.userid and proid = ${selectid}`,
+    connection.query(`select * from user join product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+    connect.cartegory_index = cartegory.cartegory_index
+group by product_id) as car on product.proid = car.product_id and product.userid = user.userid
+where product.proid = ${selectid}`,
         (error, rows) => {
             if (error) throw error;
             res.json(rows);
@@ -284,6 +295,8 @@ function email(req, res){
     mailer.sendGmail(emailParam);
 }
 
+
+
 // 주문클릭했을 시 수량 확인.
 app.post('/buy', function (req, res) {
     const { proid, count } = req.body;
@@ -339,25 +352,34 @@ app.get("/search/:way/:cont", function (req, res) {
     let query;
     switch (searchWay) {
         case "all":
-            query = `select * from user JOIN product on user.userid = product.userid
-                where procont like '%${searchcont}%' or usernick like '%${searchcont}%' or proca like '%${searchcont}%'
-                or product.proname like '%${searchcont}%' or proca2 like '%${searchcont}%'`
+            query = `select * from user join product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+                connect.cartegory_index = cartegory.cartegory_index
+                group by product_id) as car on user.userid = product.userid and product.proid = car.product_id
+                where user.usernick like '%${searchcont}%' or car.cartegory like '%${searchcont}%' or product.proname like '%${searchcont}%' or product.procont like '%${searchcont}%'`
             break;
         case "cartegory":
-            query = `select * from user JOIN product on user.userid = product.userid
-                where proca like '%${searchcont}%' or  proca2 like '%${searchcont}%'`
+            query = `select * from product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+                connect.cartegory_index = cartegory.cartegory_index
+                group by product_id) as car on product.proid = car.product_id
+                where car.cartegory like '%${searchcont}%'`
             break;
         case "title":
-            query = `select * from user JOIN product on user.userid = product.userid
+            query = `select * from product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+                connect.cartegory_index = cartegory.cartegory_index
+                group by product_id) as car on product.proid = car.product_id
                 where product.proname like '%${searchcont}%'`
             break;
         case "cont":
-            query = `select * from user JOIN product on user.userid = product.userid
-                where procont like '%${searchcont}%'`
+            query = `select * from product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+                connect.cartegory_index = cartegory.cartegory_index
+                group by product_id) as car on product.proid = car.product_id
+                where product.procont like '%${searchcont}%'`
             break;
         case "nick":
-            query = `select * from user JOIN product on user.userid = product.userid
-                where usernick like '%${searchcont}%'`
+            query = `select * from user join product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+                connect.cartegory_index = cartegory.cartegory_index
+                group by product_id) as car on user.userid = product.userid and product.proid = car.product_id
+                where user.usernick like '%${searchcont}%'`
         }
 
 
