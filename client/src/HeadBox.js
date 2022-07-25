@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
     const [userNick, setUserNick] = useState('');
     const [searchCont, setSearchCont] = useState('');
+    const [searchSel, setSearchSel] = useState("all");
     
     const navigagte = useNavigate()
 
@@ -37,8 +38,12 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
 
     const onSearchSubmitHandelr = (e) => {
         e.preventDefault();
-        navigagte(`/search/${searchCont}`);
+        navigagte(`/search/${searchCont.trim()}`, {state:searchSel});
         
+    }
+
+    const onChangeSel = (e) => {
+        setSearchSel(e.target.value);
     }
 
     return (<div className={classes.headbox}>
@@ -60,6 +65,13 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
         </div>
         <div className={classes.search}>
             <form onSubmit={onSearchSubmitHandelr}>
+                <select onChange={onChangeSel} value={searchSel}>
+                    <option value="all">전체</option>
+                    <option value="cartegory">카테고리</option>
+                    <option value="title">제목</option>
+                    <option value="cont">내용</option>
+                    <option value="nick">판매자</option>
+                </select>
                 <input
                     type="text"
                     placeholder="검색어를 입력하세요"

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ShopProduct from "../product/UI/ShopProduct";
 import classes from './ShopSearch.module.css'
 
@@ -9,8 +9,12 @@ const ShopSearch = ({userId}) => {
     const [searchData, setSearchData] = useState({});
     const { cont } = useParams();
 
+    const { state } = useLocation();
+
+    console.log(state);
+
     const sendFullRequest = async () => {
-        const response = await axios.get(`http://localhost:8080/search/${cont}`);
+        const response = await axios.get(`http://localhost:8080/search/${state}/${cont}`);
         console.log(response.data);
         if (response.data === '검색결과가 없습니다') {
             console.log("no");

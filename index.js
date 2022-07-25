@@ -332,19 +332,34 @@ app.put('/proupdate/:id', function (req, res) {
 
 
 // 검색어를 이용하여 검색.
-app.get("/search/:cont", function (req, res) {
+app.get("/search/:way/:cont", function (req, res) {
     const searchcont = req.params.cont;
-    const query = `select * from user,product where user.userid = product.userid and procont like '%${searchcont}%'
-    UNION DISTINCT
-    select * from user,product where user.userid = product.userid and usernick like '%${searchcont}%'
-    UNION DISTINCT
-    select * from user,product where user.userid = product.userid and proca like '%${searchcont}%'
-    UNION DISTINCT
-    select * from user,product where user.userid = product.userid and product.proname like '%${searchcont}%'
-    UNION DISTINCT
-    select * from user,product where user.userid = product.userid and proca2 like '%${searchcont}%'
-    `
-    // union 안쓰고 그냥 where만 사용해도 될듯
+    const searchWay = req.params.way;
+
+    let query;
+    switch (searchWay) {
+        case "all":
+            query = `select * from user JOIN product on user.userid = product.userid
+                where procont like '%${searchcont}%' or usernick like '%${searchcont}%' or proca like '%${searchcont}%'
+                or product.proname like '%${searchcont}%' or proca2 like '%${searchcont}%'`
+            break;
+        case "cartegory":
+            query = `select * from user JOIN product on user.userid = product.userid
+                where proca like '%${searchcont}%' or  proca2 like '%${searchcont}%'`
+            break;
+        case "title":
+            query = `select * from user JOIN product on user.userid = product.userid
+                where product.proname like '%${searchcont}%'`
+            break;
+        case "cont":
+            query = `select * from user JOIN product on user.userid = product.userid
+                where procont like '%${searchcont}%'`
+            break;
+        case "nick":
+            query = `select * from user JOIN product on user.userid = product.userid
+                where usernick like '%${searchcont}%'`
+        }
+
 
     connection.query(query, (err, rows) => {
         if (err) throw err;
