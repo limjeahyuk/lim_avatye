@@ -10,6 +10,7 @@ const Item = ({name}) => {
     const [orderState, setOrderState] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
+    const [cart, setCart] = useState([]);
     const { id } = useParams();
 
     const navigagte = useNavigate();
@@ -17,12 +18,13 @@ const Item = ({name}) => {
     const sendRequest = async () => {
         const response = await axios.get(`http://localhost:8080/item/${id}`);
         setItemData(response.data);
-        console.log(response.data);
+        console.log(response.data[0].cartegory.split(','));
+        setCart(response.data[0].cartegory.split(','))
     }
 
     useEffect(() => {
         sendRequest();
-    }, []);
+    },[]);
 
     const countHandler = (e) => {
         setCount(e.target.value);
@@ -104,8 +106,9 @@ const Item = ({name}) => {
                 <div className={classes.head}>
                     <h1>{itemData[0].proname}</h1>
                     <div className={classes.cartegory}>
-                        <div>#{itemData[0].proca}</div>
-                        {itemData[0].proca2 && <div>#{itemData[0].proca2}</div>}
+                        {cart[0] && <div>#{cart[0]}</div>}
+                        {cart[1] && <div>#{cart[1]}</div>}
+                        {cart[2] && <div>#{cart[2]}</div>}
                     </div>
                     <p>판매자 : {itemData[0].usernick}</p>
                 </div>

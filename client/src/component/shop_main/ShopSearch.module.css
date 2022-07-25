@@ -2,16 +2,28 @@
     width: 1250px;
     margin: auto;
 }
-.search h2{
-    width: 200px;
-    margin: auto;
-    text-align: center;
+
+
+.top{
     font-size: 30px;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 3px solid #94C6F2;
+    text-align: center;
+    width: 300px;
+    margin: auto;
+    font-weight: bold;
 }
 
+.top div:first-child{
+    margin: 10px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.top div:last-child{
+    width: 200px;
+    margin: 10px auto 30px;
+    padding-bottom: 30px;
+    border-bottom: 3px solid #94c6f2;
+}
 
 .cont{
     display: flex;

@@ -11,18 +11,13 @@ const ShopSearch = ({userId}) => {
 
     const { state } = useLocation();
 
-    console.log(state);
-
     const sendFullRequest = async () => {
         const response = await axios.get(`http://localhost:8080/search/${state}/${cont}`);
-        console.log(response.data);
         if (response.data === '검색결과가 없습니다') {
-            console.log("no");
             setSearchNull(false);
         } else {
             setSearchData(response.data);
             setSearchNull(true);
-            console.log("yes");
         }
     }
 
@@ -31,7 +26,11 @@ const ShopSearch = ({userId}) => {
     },[cont])
 
     return <div className={classes.search}>
-        <h2>검색결과</h2>
+        <div className={classes.top}>
+            <div>{cont}</div>
+            <div>검색결과</div>            
+        </div>
+
         <div>
         {!searchNull ?
             <div className={classes.no}>검색결과가 없습니다.</div> :

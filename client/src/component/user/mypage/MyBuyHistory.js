@@ -12,7 +12,6 @@ const MyBuyHistory = () => {
     const sendRequest = async () => {
         const response = await axios.get(`http://localhost:8080/mypage/${id}`);
         setUserBuyData(response.data);
-        console.log(response.data)
     };
 
     useEffect(() => {

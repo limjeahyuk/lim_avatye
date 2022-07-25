@@ -14,29 +14,34 @@ const ShopMain = ({userId}) => {
     const sendFullRequest = async () => {
         const response = await axios.get('http://localhost:8080');
         setData(response.data);
+        console.log(response.data)
     }
 
     useEffect(() => {
         sendFullRequest();
     }, [cartegory]);
 
-    const filterProduct = data.filter(item => item.proca === cartegory || item.proca2 === cartegory);
+    // const filterProduct = data.filter(item => item.cartegory.indexOf(cartegory) !== -1);
 
-
+    if (data) {
     return (<div className={classes.main}>
         <NativeSelectDemo onCartegoryHandler={onChangeCar} />
         <div className={classes.conthead}>상품목록</div>
         <div className={classes.cont}>
-        {(cartegory!=='all' ? filterProduct : data).map((item, index) => (
-            <ShopProduct
-                bool={true}
-                key={index}
-                cont ={item}
-                id={userId}
-            />
-        ))}
+            {(cartegory === 'all' && data).map((item, index) => {
+
+                return(
+                <ShopProduct
+                    bool={true}
+                    key={index}
+                    cont={item}
+                    id={userId}
+                    />
+                    )
+    })}
             </div>
     </div>)
+        }
 }
 
 export default ShopMain;

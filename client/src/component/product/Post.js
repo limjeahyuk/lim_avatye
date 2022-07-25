@@ -230,10 +230,10 @@ const Post = ({userId}) => {
                     <div className={classes.car}>
                             <select onChange={onCartegorytwoHandler} value={postCar2}>
                                 <option value="none">none</option>
-                        <option value="아케이드">아케이드</option>
-                        <option value="RPG">RPG</option>
-                        <option value="로그라이크">로그라이크</option>
-                        <option value="기타">기타</option>
+                        <option value="아케이드" hidden={postCar === "아케이드" ? true : false}>아케이드</option>
+                        <option value="RPG" hidden={postCar === "RPG" ? true : false}>RPG</option>
+                        <option value="로그라이크" hidden={postCar === "로그라이크" ? true : false}>로그라이크</option>
+                        <option value="기타" hidden={postCar === "기타" ? true : false}>기타</option>
                         </select>
                         </div>
                     </div>

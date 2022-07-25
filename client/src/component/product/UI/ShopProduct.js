@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from './ShopProduct.module.css';
 import BlockIcon from '@mui/icons-material/Block';
 
 
 const ShopProduct = ({ bool, id, cont }) => {
-    const { proid, proimg, proname, userid, proca, quantity, date, price, count, proca2, state } = cont;
+    const { proid, proimg, proname, userid, quantity, date, price, count, state, cartegory } = cont;
+
+    const [cart, setCart] = useState([]);
 
     const navigate = useNavigate();
 
@@ -15,13 +17,20 @@ const ShopProduct = ({ bool, id, cont }) => {
         }
     }
 
+    useEffect(() => {
+        if (cartegory) {
+            setCart(cartegory.split(','));
+        }   
+    },[cartegory])
+ 
     return (
         <div className={`${classes.item} ${state === 0 && classes.none} `} onClick={(e) => pdClickHandler(proid, e)}>
             {state === 0 && <BlockIcon className={classes.stop} />}
             <div className={classes.name}>{proname}</div>
             <div className={classes.cartegory}>
-                    <div className={classes.car}>#{proca} </div>
-                    {proca2 !== null && <div className={classes.car}>#{proca2}</div>}
+                {cart[0] && <div className={classes.car}>#{cart[0]} </div>}
+                {cart[1] && <div className={classes.car}>#{cart[1]}</div>}
+                {cart[2] && <div className={classes.car}>#{cart[2]}</div>} 
                 </div>
             <div className={classes.imgbox}>
                 <img src={proimg} alt="game_img"></img>

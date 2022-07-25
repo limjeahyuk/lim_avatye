@@ -38,8 +38,8 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
 
     const onSearchSubmitHandelr = (e) => {
         e.preventDefault();
-        navigagte(`/search/${searchCont.trim()}`, {state:searchSel});
-        
+        navigagte(`/search/${searchCont.trim()}`, { state: searchSel });
+        setSearchCont('');
     }
 
     const onChangeSel = (e) => {
