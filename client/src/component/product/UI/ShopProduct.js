@@ -13,8 +13,6 @@ const ShopProduct = ({ bool, id, cont }) => {
         if (id === userid||state === 1) {
             navigate(`/item/${proid}`);   
         }
-        
-        
     }
 
     return (

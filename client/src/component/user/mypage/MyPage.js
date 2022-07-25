@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ShopProduct from "../../product/UI/ShopProduct";
 import MyBuyHistory from "./MyBuyHistory";
 import classes from './MyPage.module.css'
 import MyProfile from "./MyProfile";
