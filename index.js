@@ -355,16 +355,57 @@ app.post('/buy', function (req, res) {
 // username을 이용하여 user 테이블 정보 변경
 app.put("/update/:name", function (req, res) {
     const { usernick, userpw, email } = req.body;
+    if (usernick) {
+        nickupdate(req, res);
+    }
+    if (userpw) {
+        userpwupdate(req, res);
+    }
+    if (email) {
+        emailupdate(req, res);
+    }
 
-    const updatename = req.params.name;
-    const query = `UPDATE user SET usernick='${usernick}', userpw='${userpw}',email='${email}'
-     WHERE username = '${updatename}'`
-    connection.query(query, (err, rows) => {
-        if (err) throw err;
-        return console.log("update success");
-    });
-    res.json("good");
+    res.send("ggg");
 })
+
+// nick 네임 변경
+function nickupdate(req, res) {
+    const usernick = req.body.usernick;
+    const updatename = req.params.name;
+    const query = `UPDATE user SET usernick = '${usernick}' where username = '${updatename}'`;
+
+    connection.query(query,
+        (err, rows) => {
+            if (err) throw err;
+            return console.log("nick good")
+    })
+}
+
+// pw 변경
+function userpwupdate(req, res) {
+    const userpw = req.body.userpw;
+    const updatename = req.params.name;
+    const query = `UPDATE user SET userpw = '${userpw}' where username = '${updatename}'`;
+
+    connection.query(query,
+        (err, rows) => {
+            if (err) throw err;
+            return console.log("pw good")
+    })
+}
+
+//email 변경
+function emailupdate(req, res) {
+    const email = req.body.email;
+    const updatename = req.params.name;
+    const query = `UPDATE user SET email = '${email}' where username = '${updatename}'`;
+
+    connection.query(query,
+        (err, rows) => {
+            if (err) throw err;
+            return console.log("email good")
+    })
+}
 
 // product 수정
 app.put('/proupdate/:id', function (req, res) {
