@@ -5,7 +5,7 @@ import BlockIcon from '@mui/icons-material/Block';
 
 
 const ShopProduct = ({ bool, id, cont }) => {
-    const { proid, proimg, proname, userid, quantity, date, price, count, state, cartegory } = cont;
+    const { proid, proimg, proname, userid, quantity, date, price, count, state, cartegory} = cont;
 
     const [cart, setCart] = useState([]);
 
@@ -39,7 +39,7 @@ const ShopProduct = ({ bool, id, cont }) => {
                 
                 <div className={classes.tag}>
                     {quantity === 0 && <div className={classes.no}>품절</div>}
-                    {id === userid && <div className={classes.my}>My</div>}
+                    {id == userid && <div className={classes.my}>My</div>}
                     {quantity !== 0 && id !== userid && <div className={classes.none}></div>}
                 </div>
                 

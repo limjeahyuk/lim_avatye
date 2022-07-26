@@ -92,7 +92,6 @@ app.get('/', (req, res) => {
     connect.cartegory_index = cartegory.cartegory_index
 group by product_id) as carte on product.proid = carte.product_id`, (error, rows) => {
         if (error) throw error;
-        console.log(rows);
         res.json(rows);
     })
 })
@@ -248,17 +247,56 @@ app.post("/img", upload.single('img'), async (req, res) => {
 // post > db 저장
 app.post("/post", function (req, res) {
     console.log('console : %j', req.body);
-    const { userid, proname, procont, price, proimg, proca, proca2, quantity } = req.body;
+    const { userid, proname, procont, price, proimg, quantity } = req.body;
 
-    const query = `INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, PROCA, PROCA2, QUANTITY, STATE) VALUE
-    ('${userid}','${proname}','${procont}','${price}','${proimg}','${proca}','${proca2}','${quantity}','1')`;
+    const query = `start transaction;
+    INSERT INTO product(USERID ,PRONAME, PROCONT, PRICE, PROIMG, QUANTITY, STATE) VALUE
+    ('${userid}','${proname}','${procont}','${price}','${proimg}','${quantity}','1');
+    select max(proid) as proid from product where userid = ${userid};
+    commit;
+    `
     connection.query(query,
         (err, rows) => {
             if (err) throw err;
-            return console.log("insert success");
+            console.log(rows[2][0].proid)
+            insertCartegory(req, res, rows);
         });
     res.json(req.body);
 })
+
+function insertCartegory(req, res, rows) {
+    const { proca, proca2, proca3 } = req.body;
+    console.log(rows);
+    const proid = rows[2][0].proid
+
+    const query = `insert into connect (product_id, cartegory_index) values (${proid}, ${proca}),(${proid}, ${proca2}), (${proid}, ${proca3})`
+    const query2 = `insert into connect (product_id, cartegory_index) values (${proid}, ${proca}),(${proid}, ${proca2})`
+    const query3 = `insert into connect (product_id, cartegory_index) values (${proid}, ${proca})`
+
+    if (proca && proca2 && proca3) {
+        connection.query(query,
+            (err, rows) => {
+                if (err) throw err;
+                return console.log("good1")
+        })
+    }
+    if (!proca3 && proca2 && proca) {
+        connection.query(query2,
+            (err, rows) => {
+                if (err) throw err;
+                return console.log("ggod2");
+        })
+    }
+    if (!proca3 && !proca2 && proca) {
+        connection.query(query3,
+            (err, rows) => {
+                if (err) throw err;
+                return console.log("gggoodd3");
+                
+        })
+    }
+
+}
 
 // 제품 구매버튼 눌렀을 때 order 테이블에 저장. 후 product 테이블 수량 변경
 // 트랜잭션으로 한번에 해버림.
@@ -330,15 +368,20 @@ app.put("/update/:name", function (req, res) {
 
 // product 수정
 app.put('/proupdate/:id', function (req, res) {
-    const { proname, procont, price, proimg, proca, proca2, quantity } = req.body;
+    const { proname, procont, price, proimg, quantity } = req.body;
 
     const updateid = req.params.id;
-    const query = `UPDATE product 
-    SET proname='${proname}', procont = '${procont}', price='${price}', proimg='${proimg}', proca= '${proca}',
-    proca2= '${proca2}', quantity= '${quantity}', state = 1 WHERE proid = '${updateid}'`
+    const query = `start transaction;
+    UPDATE product SET proname='${proname}', procont = '${procont}', price='${price}', proimg='${proimg}', 
+    quantity= '${quantity}', state = 1 WHERE proid = '${updateid}';
+    select proid from product where proid = ${updateid};
+    delete from connect where product_id = ${updateid};
+    commit;
+    `
     connection.query(query, (err, rows) => {
         if (err) throw err;
-        return console.log("update success");
+        console.log(rows);
+        insertCartegory(req, res, rows);
     });
     res.json("good");
 })

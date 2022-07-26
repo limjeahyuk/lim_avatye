@@ -12,6 +12,7 @@ const MyBuyHistory = () => {
     const sendRequest = async () => {
         const response = await axios.get(`http://localhost:8080/mypage/${id}`);
         setUserBuyData(response.data);
+        console.log(response.data);
     };
 
     useEffect(() => {
@@ -22,14 +23,12 @@ const MyBuyHistory = () => {
 if(userBuyData){
     return <div className={classes.cont}>
         {userBuyData.map((item, index) => (
-            <div>
                 <ShopProduct
                     bool={false}
                     key={index}
                     cont ={item}
                     id={id}
                 />
-            </div>
         ))}
         
     </div>

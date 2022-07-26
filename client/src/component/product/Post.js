@@ -13,8 +13,9 @@ const Post = ({userId}) => {
     const [postPrice, setPostPrice] = useState(0);
     const [postFile, setPostFile] = useState('');
     const [postPreview, setPostPreview] = useState('');
-    const [postCar, setPostCar] = useState('아케이드');
+    const [postCar, setPostCar] = useState('1');
     const [postCar2, setPostCar2] = useState('');
+    const [postCar3, setPostCar3] = useState('');
     const [quantity, setQuantity] = useState(0);
 
     
@@ -54,7 +55,10 @@ const Post = ({userId}) => {
     const selectChangeHandler = (e) => {
         setPostCar(e.target.value);
     }
-    const onCartegorytwoHandler = (e) => {setPostCar2(e.target.value);}
+    const onCartegorytwoHandler = (e) => { setPostCar2(e.target.value); }
+    const onCartegoryThreeHandler = (e) => {
+        setPostCar3(e.target.value)
+    }
     const quantityHandler = (e) => {
         setQuantity(String(e.target.value).replace(/[^0-9]/g, ""));
         if (Number(e.target.value) > 0) {
@@ -144,6 +148,7 @@ const Post = ({userId}) => {
             proimg: postFile,
             proca: postCar,
             proca2: postCar2,
+            proca3: postCar3,
             quantity: quantity
         };
 
@@ -159,8 +164,6 @@ const Post = ({userId}) => {
             console.log(error);
         })
         }
-      
-
     };
 
 
@@ -217,10 +220,11 @@ const Post = ({userId}) => {
                     <label>카테고리</label>
                     <div className={classes.car}>
                             <select onChange={selectChangeHandler} value={postCar}>
-                                <option value="아케이드">아케이드</option>
-                                <option value="RPG">RPG</option>
-                                <option value="로그라이크">로그라이크</option>
-                                <option value="기타">기타</option>
+                                <option value="1" hidden={postCar2 === "1" || postCar3 === "1" ? true : false}>아케이드</option>
+                                <option value="2" hidden={postCar2 === "2" || postCar3 === "2" ? true : false}>RPG</option>
+                                <option value="3" hidden={postCar2 === "3" || postCar3 === "3" ? true : false}>로그라이크</option>
+                                <option value="5" hidden={postCar2 === "5" || postCar3 === "5" ? true : false}>퍼즐</option>
+                                <option value="4" hidden={postCar2 === "4" || postCar3 === "4" ? true : false}>기타</option>
                             </select>
                         </div>
                         
@@ -230,10 +234,24 @@ const Post = ({userId}) => {
                     <div className={classes.car}>
                             <select onChange={onCartegorytwoHandler} value={postCar2}>
                                 <option value="none">none</option>
-                        <option value="아케이드" hidden={postCar === "아케이드" ? true : false}>아케이드</option>
-                        <option value="RPG" hidden={postCar === "RPG" ? true : false}>RPG</option>
-                        <option value="로그라이크" hidden={postCar === "로그라이크" ? true : false}>로그라이크</option>
-                        <option value="기타" hidden={postCar === "기타" ? true : false}>기타</option>
+                        <option value="1" hidden={postCar === "1" || postCar3 === "1" ? true : false}>아케이드</option>
+                        <option value="2" hidden={postCar === "2" || postCar3 === "2" ? true : false}>RPG</option>
+                        <option value="3" hidden={postCar === "3" || postCar3 === "3" ? true : false}>로그라이크</option>
+                        <option value="5" hidden={postCar === "5" || postCar3 === "5" ? true : false}>퍼즐</option>
+                        <option value="4" hidden={postCar === "4" || postCar3 === "4" ? true : false}>기타</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div className={classes.threecar}>
+                    <label>카테고리3</label>
+                    <div className={classes.car}>
+                            <select onChange={onCartegoryThreeHandler} value={postCar3}>
+                                <option value="none">none</option>
+                        <option value="1" hidden={postCar === "1" || postCar2 === "1" ? true : false}>아케이드</option>
+                        <option value="2" hidden={postCar === "2" || postCar2 === "2" ? true : false}>RPG</option>
+                        <option value="3" hidden={postCar === "3" || postCar2 === "3" ? true : false}>로그라이크</option>
+                        <option value="5" hidden={postCar === "5" || postCar2 === "5" ? true : false}>퍼즐</option>
+                        <option value="4" hidden={postCar === "4" || postCar2 === "4" ? true : false}>기타</option>
                         </select>
                         </div>
                     </div>
