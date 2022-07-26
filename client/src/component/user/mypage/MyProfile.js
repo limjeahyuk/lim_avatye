@@ -4,7 +4,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import axios from "axios";
 import classes from './MyProfile.module.css'
 
-const MyProfile = () => {
+const MyProfile = ({username}) => {
     const [userData, setUserData] = useState({
         email: '',
         username: '',
@@ -20,8 +20,9 @@ const MyProfile = () => {
 
 
     const sendRequest = async () => {
-        const response = await axios.get(`http://localhost:8080/profile/${id}`);
+        const response = await axios.get(`http://localhost:8080/profile/${username}`);
         setUserData(response.data[0]);
+        console.log(response.data[0])
     };
 
     useEffect(() => {
@@ -38,7 +39,8 @@ const MyProfile = () => {
             <div className={classes.info}>
             <div className={classes.nick}>{userData.usernick}</div>
                 <div className={classes.id}>{userData.username}</div>
-            <div className={classes.email}>{userData.email}</div>
+                    <div className={classes.email}>{userData.email}</div>
+                    <div>선호하는 카테고리 :{ userData.cartegory_name}</div>
         </div>
             }
             
