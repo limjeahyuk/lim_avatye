@@ -46,6 +46,7 @@ const sessionOption = {
 // jwt 사용...
 const jwt = require('jsonwebtoken');
 const { parse } = require('path');
+const { query } = require('express');
 const HYUK_TOKEN = 'HYUK_SECRET_KEY';
 
 //객체생성
@@ -125,9 +126,13 @@ where user.userid= ${selectid}`,
 })
 
 // userid를 이용하여 user 조회
-app.get('/profile/:id', (req, res) => {
-    const selectid = parseInt(req.params.id);
-    connection.query(`SELECT * FROM user WHERE userid = ${selectid}`,
+app.get('/profile/:name', (req, res) => {
+    const selectname = req.params.name;
+    const query = `select * from user join (select sum(count) as hap, cartegory_index, username
+        from \`order\` join product on \`order\`.proid = product.proid join connect on product.proid = connect.product_id
+        where username = "${selectname}" group by cartegory_index order by hap desc limit 1) as cate
+        on user.username = cate.username join cartegory on cate.cartegory_index = cartegory.cartegory_index`
+    connection.query(query,
         (error, rows) => {
             if (error) throw error;
             res.json(rows);

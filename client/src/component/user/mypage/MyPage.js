@@ -5,11 +5,12 @@ import MyBuyHistory from "./MyBuyHistory";
 import classes from './MyPage.module.css'
 import MyProfile from "./MyProfile";
 import MySellHistory from "./MySellHistory";
+import jwt_decode from 'jwt-decode';
 
-const MyPage = ({userId, isLoginCheck}) => {
+const MyPage = () => {
     const [userNick, setUserNick] = useState('');
-    const [userPro, setUserPro] = useState({});
-    const [userProId, setUserProId] = useState('');
+    const [userName, setUserName] = useState('');
+    const [userId, setUserId] = useState('');
 
     const [tabState, setTabState] = useState(1);
 
@@ -31,9 +32,13 @@ const MyPage = ({userId, isLoginCheck}) => {
 
     useEffect(() => {  
         sendRequest();
-        if ("" + userId !== "" + id) {
+        const token = localStorage.getItem('lim-token');
+        setUserName(jwt_decode(token).username);
+        setUserId(jwt_decode(token).userid);
+        if ("" + jwt_decode(token).userid !== "" + id) {
             navigagte('/');
         }
+        
     },[]);
 
     return (
@@ -48,7 +53,7 @@ const MyPage = ({userId, isLoginCheck}) => {
                         <div className={`${tabState === 2 && classes.click}`} onClick={onTabHandler2} name="2">구매 내역</div>
                         <div className={`${tabState === 3 && classes.click}`} onClick={onTabHandler3} name="3">등록한 상품</div>
                     </div>
-                    {tabState === 1 && <MyProfile />}
+                    {tabState === 1 && <MyProfile username={userName} />}
                     {tabState === 2 && <MyBuyHistory />}
                     {tabState === 3 && <MySellHistory />} 
                 </div>
