@@ -46,7 +46,8 @@ const MyPage = () => {
             {userNick &&
                 <div className={classes.buy}>
                     <div className={classes.head}>
-                    {userNick}님 환영합니다.
+                        <p>{userNick}님</p>
+                        <p>환영합니다.</p>
                     </div>
                     <div className={classes.tab}>
                         <div className={`${tabState === 1 && classes.click}`} onClick={onTabHandler1} name="1">유저 프로필</div>

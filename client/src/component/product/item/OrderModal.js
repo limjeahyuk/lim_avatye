@@ -33,6 +33,7 @@ const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress, usern
 
     const onEmailHandler = (e) => {
         setEmail(String(e.target.value).replace(/ /g, ""));
+        setEmaillFull(e.target.value + "@" + emailAddress);
     }
 
     const onEmailAddress = (e) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import axios from "axios";
 import classes from './MyProfile.module.css'
@@ -45,7 +45,8 @@ const MyProfile = ({username}) => {
             }
             
         
-        <div className={classes.update}>
+            <div className={classes.update}>
+                <Link to='/post' >상품등록</Link>
             <button onClick={userUpdateHandler}>정보 수정</button>
             </div>
             </div>

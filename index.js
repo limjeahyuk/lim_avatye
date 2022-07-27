@@ -348,6 +348,7 @@ app.post('/buy', function (req, res) {
     connection.query(query, (err, rows) => {
         if (err) throw err;
         if (rows[0].quantity >= count) {
+            // async await
             itemcount(req, res);
             email(req, res);
             //비동기로
@@ -524,6 +525,22 @@ app.put("/start/:id", function (req, res) {
         });
     res.json(stateid + "판매시작");
 
+})
+
+// 게시물 카테고리 별 조회
+app.get("/category/:name", function (req, res) {
+    const statename = req.params.name;
+    const query = `select * from product join (select product_id, group_concat(cartegory_name) as "cartegory" from cartegory join connect on
+                connect.cartegory_index = cartegory.cartegory_index
+                group by product_id) as car on product.proid = car.product_id
+                where car.cartegory like '%${statename}%'`
+    
+    connection.query(query,
+        (err, rows) => {
+            if (err) throw err;
+            res.json(rows);
+        });
+    
 })
 
 
