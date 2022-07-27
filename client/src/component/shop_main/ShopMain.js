@@ -19,7 +19,7 @@ const ShopMain = ({userId}) => {
 
     if (data) {
     return (<div className={classes.main}>
-        <div className={classes.conthead}>상품목록</div>
+        {/* <div className={classes.conthead}>상품목록</div> */}
         <div className={classes.cont}>
             {data.map((item, index) => {
                 return(

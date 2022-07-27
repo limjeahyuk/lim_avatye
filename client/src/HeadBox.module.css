@@ -1,6 +1,6 @@
 .headbox {
     margin-bottom: 30px;
-    height: 200px;
+    height: 225px;
     background-color: #F2F2F2;
     display: flex;
     flex-direction: column;
@@ -138,5 +138,24 @@
 }
 
 .post a:hover{
+    color: #94C6F2;
+}
+
+.category {
+    display: flex;
+    width: 700px;
+    font-size: 22px;
+    margin: 10px auto;
+    justify-content: space-between;
+}
+
+.category a{
+    text-decoration: none;
+    color: black;
+    margin: 0 20px;
+    transition: .5s;
+}
+
+.category a:hover{
     color: #94C6F2;
 }

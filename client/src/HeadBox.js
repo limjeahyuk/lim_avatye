@@ -82,9 +82,16 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
                 <button><SearchIcon/></button>
             </form>
         </div>
-        <div className={classes.post}>
+        {/* <div className={classes.post}>
             {isLogin && 
             <Link to="/post">상품등록</Link> }
+        </div> */}
+        <div className={classes.category}>
+            <Link to='/category/아케이드'>아케이드</Link>
+            <Link to='/category/퍼즐'>퍼즐</Link>
+            <Link to='/category/RPG'>RPG</Link>
+            <Link to='/category/기타'>기타</Link>
+            <Link to='/category/로그라이크'>로그라이크</Link>
         </div>
     </div>)
 }

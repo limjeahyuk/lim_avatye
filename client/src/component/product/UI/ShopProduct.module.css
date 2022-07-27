@@ -45,6 +45,8 @@
     height: 200px;
     display: flex;
     justify-content: center;
+    border: none;
+    background-color: rgb(235, 234, 234);
 }
 
 .imgbox img {

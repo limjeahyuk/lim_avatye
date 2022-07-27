@@ -35,6 +35,14 @@
     justify-content: flex-end;
     margin-top: 20px;
     width: 190px;
+    align-items: center;
+}
+
+.update a{
+    text-decoration: none;
+    color: black;
+    margin-right: 30px;
+    cursor: pointer;
 }
 
 .update button{
@@ -43,4 +51,5 @@
     border-radius: 7px;
     font-size: 14px;
     font-weight: 500;
+    background-color: transparent;
 }
