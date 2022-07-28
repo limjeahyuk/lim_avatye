@@ -317,10 +317,16 @@ function itemcount(req, res) {
     UPDATE product SET quantity=quantity-${count} WHERE proid = ${proid};
     commit;
     `
-    connection.query(query, (err, rows) => {
-        if (err) throw err;
-        return res.send('주문이 완료되었습니다.')
+
+    return new Promise(function (resolve, reject) {
+        connection.query(query, (err, rows) => {
+            if (err) {
+                reject(new Error("Request is failed"));
+            }
+            resolve(rows);
     });
+    })
+    
 }
 
 // 메일 보내기
@@ -335,13 +341,16 @@ function email(req, res){
         ${username}님 께서는 ${proname} 을 총 ${count} 개 구매해주셨습니다.
         `
     };
-    mailer.sendGmail(emailParam);
+        
+     mailer.sendGmail(emailParam);
+
+    
 }
 
 
 
 // 주문클릭했을 시 수량 확인.
-app.post('/buy', function (req, res) {
+app.post('/buy',  function (req, res) {
     const { proid, count } = req.body;
 
     const query = `select * from product where proid= ${proid}`
@@ -349,9 +358,14 @@ app.post('/buy', function (req, res) {
         if (err) throw err;
         if (rows[0].quantity >= count) {
             // async await
-            itemcount(req, res);
-            email(req, res);
-            //비동기로
+            itemcount(req, res).then(function (tableData) {
+                console.log(tableData);
+                email(req, res);
+                res.send("주문완료되었습니다.")
+            }).catch(function (err) {
+                console.log(err);
+                res.send(err);
+            })
         } else {
             res.send('수량이 없습니다.')
         }
