@@ -305,12 +305,11 @@ function insertCartegory(req, res, rows) {
 
 // 제품 구매버튼 눌렀을 때 order 테이블에 저장. 후 product 테이블 수량 변경
 // 트랜잭션으로 한번에 해버림.
-function itemcount(req, res) {
-    const { proid, username, count, orderdate } = req.body;
-    const rb = req.body;
-    const ordertype = rb.type;
-    const orderinfo = rb.data;
-    const orderemail = rb.email;
+function itemcount(req) {
+    const { proid, username, count, orderdate } = req;
+    const ordertype = req.type;
+    const orderinfo = req.data;
+    const orderemail = req.email;
     const query = `start transaction;
     INSERT INTO \`order\`(PROID, USERNAME, COUNT, ORDERDATE, ORDERTYPE, ORDERINFO, ORDEREMAIL) VALUE
      (${proid},'${username}',${count}, '${orderdate}', '${ordertype}' ,'${orderinfo}','${orderemail}');
@@ -330,7 +329,7 @@ function itemcount(req, res) {
 }
 
 // 메일 보내기
-function email(req, res){
+function email1(req, res){
     const { email, username, proname, count } = req.body;
 
     let emailParam = {
@@ -350,22 +349,43 @@ function email(req, res){
 
 
 // 주문클릭했을 시 수량 확인.
-app.post('/buy',  function (req, res) {
-    const { proid, count } = req.body;
+app.post('/buy', function (req, res) {
+    const { proid, username, count, orderdate, type, data, email } = req.body;
+    const itemCountData = {
+        proid: proid,
+        username: username,
+        count: count,
+        orderdate: orderdate,
+        type: type,
+        data: data,
+        email: email
+    }
 
     const query = `select * from product where proid= ${proid}`
-    connection.query(query, (err, rows) => {
+    connection.query(query, async (err, rows) => {
         if (err) throw err;
         if (rows[0].quantity >= count) {
             // async await
-            itemcount(req, res).then(function (tableData) {
-                console.log(tableData);
-                email(req, res);
-                res.send("주문완료되었습니다.")
-            }).catch(function (err) {
+            try {
+                let t = await itemcount(itemCountData)
+                console.log(t);
+                email1(req, res);
+                res.send("주문완료되었습니다.");
+            } catch (err) {
                 console.log(err);
                 res.send(err);
-            })
+            }
+
+            // .then .catch
+            // itemcount(itemCountData).then(function (tableData) {
+            //     console.log(tableData);
+            //     email1(req, res);
+            //     res.send("주완");
+            // }).catch(err){
+            //     console.log(err);
+            //     res.send(err);
+            // }
+            //}
         } else {
             res.send('수량이 없습니다.')
         }
