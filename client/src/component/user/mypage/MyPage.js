@@ -10,7 +10,6 @@ import jwt_decode from 'jwt-decode';
 const MyPage = () => {
     const [userNick, setUserNick] = useState('');
     const [userName, setUserName] = useState('');
-    const [userId, setUserId] = useState('');
 
     const [tabState, setTabState] = useState(1);
 
@@ -34,7 +33,6 @@ const MyPage = () => {
         sendRequest();
         const token = localStorage.getItem('lim-token');
         setUserName(jwt_decode(token).username);
-        setUserId(jwt_decode(token).userid);
         if ("" + jwt_decode(token).userid !== "" + id) {
             navigagte('/');
         }

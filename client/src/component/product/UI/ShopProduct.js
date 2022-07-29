@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from './ShopProduct.module.css';
 import BlockIcon from '@mui/icons-material/Block';
+import AuthContext from "../../../store/auth-context";
 
 
-const ShopProduct = ({ bool, id, cont }) => {
+const ShopProduct = ({ bool, cont }) => {
+    const ctx = useContext(AuthContext);
     const { proid, proimg, proname, userid, quantity, date, price, count, state, cartegory } = cont;
 
     const [cart, setCart] = useState([]);
@@ -12,7 +14,7 @@ const ShopProduct = ({ bool, id, cont }) => {
     const navigate = useNavigate();
 
     const pdClickHandler = (proid, e) => {
-        if (id === userid||state === 1) {
+        if (ctx.userId === userid||state === 1) {
             navigate(`/item/${proid}`);   
         }
     }
@@ -45,8 +47,8 @@ const ShopProduct = ({ bool, id, cont }) => {
                 
                 <div className={classes.tag}>
                     {quantity === 0 && <div className={classes.no}>품절</div>}
-                    {id == userid && <div className={classes.my}>My</div>}
-                    {quantity !== 0 && id !== userid && <div className={classes.none}></div>}
+                    {ctx.userId == userid && <div className={classes.my}>My</div>}
+                    {quantity !== 0 && ctx.id !== userid && <div className={classes.none}></div>}
                 </div>
                 
                 <div className={classes.right}>

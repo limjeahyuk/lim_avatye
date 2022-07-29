@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {  useNavigate, useParams } from "react-router-dom";
+import AuthContext from "../../../store/auth-context";
 import classes from './Item.module.css';
 import OrderModal from "./OrderModal.js"
 
-const Item = ({name}) => {
+const Item = () => {
     const [itemData, setItemData] = useState({});
     const [count, setCount] = useState(0);
     const [orderState, setOrderState] = useState(false);
@@ -13,6 +14,7 @@ const Item = ({name}) => {
     const [cart, setCart] = useState([]);
     const { id } = useParams();
 
+    const ctx = useContext(AuthContext);
     const navigagte = useNavigate();
 
     const sendRequest = async () => {
@@ -35,7 +37,7 @@ const Item = ({name}) => {
     }
 
     const userRequest = async () => {
-        const response = await axios.get(`http://localhost:8080/user/${name}`);
+        const response = await axios.get(`http://localhost:8080/user/${ctx.username}`);
         if (response.data[0].email === null) {
             console.log("null");
             setUserEmail('');
@@ -94,7 +96,6 @@ const Item = ({name}) => {
         {orderState && <OrderModal
             onConfirm={onChangeHandler}
             proid={id}
-            username={name}
             count={count}
             pemail={userEmail}
             pemailAddress={emailAddress}
@@ -118,14 +119,14 @@ const Item = ({name}) => {
                 <div className={classes.cont}>
                     <div className={classes.tag}>
                         {itemData[0].quantity === 0 && <div className={classes.no}>품절</div>}
-                        {itemData[0].username === name && <div className={classes.my}>MY</div>}
+                        {itemData[0].username === ctx.username && <div className={classes.my}>MY</div>}
                         {itemData[0].state === 0 && <div className={classes.stop}>판매중지</div>}
                     </div>
                     <div className={classes.itemcont}>{itemData[0].procont}</div>
                     <div className={classes.info}>
                         <div>가격 : {itemData[0].price} 원</div>
                         <div>남은 수량 : {itemData[0].quantity}개</div>
-                        {name ?
+                        {ctx.username ?
                             <form className={classes.buy} onSubmit={buySubmitHandler}>
                                 <input
                                     type="number"
@@ -140,7 +141,7 @@ const Item = ({name}) => {
                             </form> :
                             <div className={classes.alrt}>로그인 먼저 해주세요</div>}
                         {itemData[0].quantity === 0 && <div>품절입니다</div>}
-                        {itemData[0].username === name && <div className={classes.update}>
+                        {itemData[0].username === ctx.username && <div className={classes.update}>
                             <div onClick={updateHandler}>수정</div>
                             {itemData[0].state === 1 ?
                                 <div onClick={delectHandler}>삭제</div> :

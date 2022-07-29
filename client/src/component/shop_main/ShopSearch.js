@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import ShopProduct from "../product/UI/ShopProduct";
 import classes from './ShopSearch.module.css'
 
-const ShopSearch = ({userId}) => {
+const ShopSearch = () => {
     const [searchNull, setSearchNull] = useState(false);
     const [searchData, setSearchData] = useState({});
     const { cont } = useParams();
@@ -39,7 +39,6 @@ const ShopSearch = ({userId}) => {
                 bool={true}
                 key={index}
                 cont={item}
-                id={userId}
             />
             ))}
             </div>

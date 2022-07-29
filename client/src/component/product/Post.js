@@ -1,15 +1,29 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useReducer, useState } from "react";
 import classes from './Post.module.css';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 
-const Post = ({userId}) => {
-    const [postName, setPostName] = useState('');
-    const [postCont, setPostCont] = useState('');
+const nameReducer = (state, action) => {
+    if (action.type === "USER_INPUT") {
+        return{value: action.val, isValid: action.val.length > 2}
+    }
+    return { value: '', isValid: state.value.length>3 };
+}
+
+const contReducer = (state, action) => {
+    if (action.type === "USER_INPUT") {
+        return {value: action.val, isValid: action.val.length>6}
+    }
+    return {value: '', isValid: state.value.length>6}
+}
+
+
+const Post = () => {
     const [postPrice, setPostPrice] = useState(0);
     const [postFile, setPostFile] = useState('');
     const [postPreview, setPostPreview] = useState('');
@@ -18,31 +32,29 @@ const Post = ({userId}) => {
     const [postCar3, setPostCar3] = useState('');
     const [quantity, setQuantity] = useState(0);
 
-    
-    const [nameVal, setNameVal] = useState(false);
-    const [contVal, setContVal] = useState(false);
     const [priceVal, setPriceVal] = useState(false);
     const [quantityVal, setQuantityVal] = useState(false);
 
-    
+    const [nameState, dispatchName] = useReducer(nameReducer, {
+        value: '',
+        isValid: false
+    })
+
+    const [contState, dispatchCont] = useReducer(contReducer, {
+        value: '',
+        isValid: false
+    })
+
+    const ctx = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     // input 상태 관리
     const nameHandler = (e) => {
-        setPostName(e.target.value);
-        if (e.target.value.length > 3) {
-            setNameVal(true);
-        } else {
-            setNameVal(false);
-        }
+        dispatchName({ type: 'USER_INPUT', val: e.target.value });
     }
     const contHandler = (e) => {
-        setPostCont(e.target.value);
-        if (e.target.value.length > 5) {
-            setContVal(true);
-        } else {
-            setContVal(false);
-        }
+        dispatchCont({ type: 'USER_INPUT', val: e.target.value });
     }
     const priceHandler = (e) => {
         setPostPrice(String(e.target.value).replace(/[^0-9]/g, ""));
@@ -141,9 +153,9 @@ const Post = ({userId}) => {
         e.preventDefault();
 
         const postData = {
-            userid: userId,
-            proname: postName,
-            procont: postCont,
+            userid: ctx.userId,
+            proname: nameState.value,
+            procont: contState.value,
             price: postPrice,
             proimg: postFile,
             proca: postCar,
@@ -152,7 +164,7 @@ const Post = ({userId}) => {
             quantity: quantity
         };
 
-        if (nameVal && priceVal && contVal && quantityVal) {
+        if (nameState.isValid && priceVal && contState.isValid && quantityVal) {
               axios({
             url: "http://localhost:8080/post",
             method: 'post',
@@ -174,13 +186,13 @@ const Post = ({userId}) => {
                 <div>
                     <div className={classes.head}>
                         <label htmlFor="name">이름</label>
-                        {!nameVal ? <p>3글자 이상 채워주세요</p> : <p className={classes.good}>굳!</p> }
+                        {!nameState.isValid ? <p>3글자 이상 채워주세요</p> : <p className={classes.good}>굳!</p> }
                         </div>
                     <div className={classes.box}>
                     <input
                         id="name"
                         type="text"
-                        value={postName}
+                        value={nameState.value}
                             onChange={nameHandler}
                             minLength="3"
                         />
@@ -202,13 +214,13 @@ const Post = ({userId}) => {
                 <div>
                     <div className={classes.head}>
                         <label>내용</label>
-                        {!contVal ? <p>7글자 이상 채워주세요</p> : <p className={classes.good}>굳!</p> }
+                        {!contState.isValid ? <p>7글자 이상 채워주세요</p> : <p className={classes.good}>굳!</p> }
                     </div>
                     
                     <div className={classes.box}>
                     <input
                         type="text"
-                        value={postCont}
+                        value={contState.value}
                             onChange={contHandler}
                             placeholder="게임에 대한 내용 적어주세요."
                             minLength="5"
