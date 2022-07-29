@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import ShopProduct from "../UI/ShopProduct";
 import classes from "./Category.module.css";
 
-const Category = ({userId}) => {
+const Category = () => {
     const [data, setData] = useState([{}])
 
     const { name } = useParams();
@@ -25,7 +25,6 @@ const Category = ({userId}) => {
                 bool={true}
                 key={index}
                 cont={item}
-                id={userId}
             />
             ))}
         </div>

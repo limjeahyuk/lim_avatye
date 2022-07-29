@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../../store/auth-context";
 import ModalCont from "./modal/ModalCont";
 import classes from './OrderModal.module.css'
 
-const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress, usernick, proname }) => {
+const Modal = ({ onConfirm, proid, count, pemail, pemailAddress, usernick, proname }) => {
     
     const navigate = useNavigate();
+    const ctx = useContext(AuthContext);
 
     const [cashApper, setCashApper] = useState(false);
     const [cashOption, setCashOption] = useState('');
@@ -48,7 +50,7 @@ const Modal = ({ onConfirm, proid, username, count, pemail, pemailAddress, usern
             onConfirm();
         const orderData = {
             proid: proid,
-            username: username,
+            username: ctx.username,
             count: count,
             orderdate: new Date().toISOString().slice(0, 10),
             type: cashOption,

@@ -3,7 +3,7 @@ import axios from 'axios';
 import classes from './ShopMain.module.css';
 import ShopProduct from "../product/UI/ShopProduct";
 
-const ShopMain = ({userId}) => {
+const ShopMain = () => {
     const [data, setData] = useState([{}]);
     
     const sendFullRequest = async () => {
@@ -27,7 +27,6 @@ const ShopMain = ({userId}) => {
                     bool={true}
                     key={index}
                     cont={item}
-                    id={userId}
                     />
                     )
     })}

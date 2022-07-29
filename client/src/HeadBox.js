@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from './HeadBox.module.css';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SearchIcon from '@mui/icons-material/Search';
+import AuthContext from "./store/auth-context";
 
-const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
+const HeadBox = () => {
+    const ctx = useContext(AuthContext);
     const [userNick, setUserNick] = useState('');
     const [searchCont, setSearchCont] = useState('');
     const [searchSel, setSearchSel] = useState("all");
@@ -12,18 +14,18 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
     const navigagte = useNavigate()
 
     const sendRequest = async () => {
-        const response = await axios.get(`http://localhost:8080/user/${userName}`);
+        const response = await axios.get(`http://localhost:8080/user/${ctx.username}`);
         setUserNick(response.data[0].usernick);
     };
 
     useEffect(() => {
-        if (userName) {  
+        if (ctx.username) {  
         sendRequest();
         }
     });
 
     const logoutHandler = () => {
-        isLoginCheck(false);
+        ctx.onLogin(false);
         localStorage.removeItem('lim-token');
         navigagte('/');
     }
@@ -48,10 +50,10 @@ const HeadBox = ({userName, userId, isLogin, isLoginCheck}) => {
 
     return (<div className={classes.headbox}>
         <div className={classes.intro}>
-            {isLogin ? <div className={classes.logout}>
+            {ctx.isLogin ? <div className={classes.logout}>
                 <div onClick={logoutHandler}>logout</div>
                 |
-                <Link to={'/mypage/' + userId}>{userNick} 님</Link></div>
+                <Link to={'/mypage/' + ctx.userId}>{userNick} 님</Link></div>
             : <div className={classes.user}>
                 <Link to='/login'>login</Link>
                 |

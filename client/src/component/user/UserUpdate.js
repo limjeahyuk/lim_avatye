@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 import classes from './UserUpdate.module.css'
 
-const UserUpdate = ({ name, isLoginCheck }) => {
+const UserUpdate = () => {
     // input 창
     const [nickName, setNickName] = useState('');
     const [password, setPassword] = useState('');
@@ -11,6 +12,8 @@ const UserUpdate = ({ name, isLoginCheck }) => {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
+
+    const ctx = useContext(AuthContext);
 
 
     const [data, setData] = useState({})
@@ -87,7 +90,7 @@ const UserUpdate = ({ name, isLoginCheck }) => {
 
     // 유저 정보 가져오고 기본값 설정.
     const sendRequest = async () => {
-        const response = await axios.get(`http://localhost:8080/user/${name}`);
+        const response = await axios.get(`http://localhost:8080/user/${ctx.username}`);
         setNickName(response.data[0].usernick);
         setEmail(response.data[0].email.split('@')[0]);
         setAddress(response.data[0].email.split('@')[1]);
@@ -109,13 +112,13 @@ const UserUpdate = ({ name, isLoginCheck }) => {
         e.preventDefault();
         console.log(data);
          axios({
-            url: `http://localhost:8080/update/${name}`,
+            url: `http://localhost:8080/update/${ctx.username}`,
             method: 'put',
             data: data
         }).then(function a(response) {
             console.log("good");
             alert("변경 되었습니다. 로그인을 다시 해주세요");
-            isLoginCheck(false);
+            ctx.onLogin(false);
             localStorage.removeItem('lim-token');
             navigagte('/');
         })

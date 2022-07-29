@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 import classes from "./Login.module.css";
 
-const Login = ({isLoginCheck}) => {
+const Login = ({ isLoginCheck }) => {
+    const ctx = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [userpw, setUserpw] = useState('');
     const navigate = useNavigate();
@@ -35,7 +37,7 @@ const Login = ({isLoginCheck}) => {
             if (response.data[0].username === username || response.data[0].userpassword === userpw) {
                 // login성공
                 localStorage.setItem('lim-token', response.data.token);
-                isLoginCheck(true);
+                ctx.onLogin(true);
                 navigate('/');             
             } else {
                 //로그인 x
